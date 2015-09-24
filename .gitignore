@@ -7,6 +7,8 @@
 *.userosscache
 *.sln.docstates
 
+*.old
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
