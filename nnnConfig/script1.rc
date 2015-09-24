@@ -1,0 +1,240 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_NNNCONFIG DIALOGEX 0, 0, 287, 238
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    CONTROL         "ウィンドウ",IDC_RADIO_WINDOW,"Button",BS_AUTORADIOBUTTON | WS_GROUP,88,18,59,10
+    CONTROL         "フルスクリーン",IDC_RADIO_FULL,"Button",BS_AUTORADIOBUTTON,168,18,75,10
+    CONTROL         "既読",IDC_RADIO_SKIPREAD,"Button",BS_AUTORADIOBUTTON | WS_GROUP,88,37,54,10
+    CONTROL         "全て",IDC_RADIO_SKIPALL,"Button",BS_AUTORADIOBUTTON,168,37,48,10
+    CONTROL         "Slider1",IDC_SLIDER_MUSICVOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,95,75,182,15
+    CONTROL         "Slider2",IDC_SLIDER_SOUNDVOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,95,95,182,15
+    CONTROL         "Slider3",IDC_SLIDER_VOICEVOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,95,114,182,15
+    CONTROL         "Slider4",IDC_SLIDER_MESSAGESPEED,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,95,182,182,15
+    LTEXT           "メッセージスピード",IDC_STATIC_MESSAGESPEED,18,189,63,8
+    LTEXT           "画面表示",IDC_STATIC_SCREENMODE,18,20,43,8
+    LTEXT           "早送り設定",IDC_STATIC_SKIP,18,39,48,8
+    CONTROL         "音楽",IDC_CHECK_MUSICSWITCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,80,47,10
+    CONTROL         "効果音",IDC_CHECK_SOUNDSWITCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,100,47,10
+    CONTROL         "音声",IDC_CHECK_VOICESWITCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,119,47,10
+    CONTROL         "ムービー音量",IDC_CHECK_MOVIESWITCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,137,58,10
+    CONTROL         "Slider1",IDC_SLIDER_MOVIEVOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,95,134,182,15
+    CONTROL         "効果音音声",IDC_CHECK_SOUNDVOICESWITCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,157,53,10
+    CONTROL         "Slider1",IDC_SLIDER_SOUNDVOICEVOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,95,154,182,15
+END
+
+IDD_DIALOG1 DIALOGEX 0, 0, 329, 327
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "nnnConfig2"
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,19,303,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,256,303,50,14
+    CONTROL         "Tab1",IDC_NNNTAB,"SysTabControl32",0x0,7,7,314,290
+END
+
+IDD_DIALOG_NNNCONFIG2 DIALOGEX 0, 0, 293, 263
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック", 0, 0, 0x0
+BEGIN
+    CONTROL         "自動",IDC_RADIO_2D3D_AUTO,"Button",BS_AUTORADIOBUTTON | WS_GROUP,88,59,35,10
+    CONTROL         "2D",IDC_RADIO_2D3D_2D,"Button",BS_AUTORADIOBUTTON,146,59,35,10
+    CONTROL         "3D",IDC_RADIO_2D3D_3D,"Button",BS_AUTORADIOBUTTON,189,59,36,10
+    LTEXT           "2D-3D 切り替え",IDC_STATIC_2D3D,19,61,61,8
+    LTEXT           "ソフトウェア\n頂点シェダー",IDC_STATIC_SOFTVERTEXSHADER,18,98,62,21
+    CONTROL         "自動",IDC_RADIO_VSHADER_AUTO,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,88,99,30,10
+    CONTROL         "ソフト",IDC_RADIO_VSHADER_SOFT,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,146,99,32,10
+    CONTROL         "ハード",IDC_RADIO_VSHADER_HARD,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,191,99,34,10
+    CONTROL         "名前指定",IDC_CHECK_USERFONT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,168,53,10
+    COMBOBOX        IDC_COMBO_FONTNAME,154,166,112,132,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "ゴシック",IDC_RADIO_MSGOTHIC,"Button",BS_AUTORADIOBUTTON | WS_GROUP,88,147,57,10
+    CONTROL         "明朝",IDC_RADIO_MSMINCHO,"Button",BS_AUTORADIOBUTTON,168,147,54,10
+    LTEXT           "フォントの選択",IDC_STATIC_FONT,18,149,57,8
+    CONTROL         "フレームスキップを行わない",IDC_CHECK_NOSKIPFRAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,189,117,10
+    CONTROL         "VMR9を使う",IDC_CHECK_VMR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,122,89,10
+    LTEXT           "ムービー",IDC_STATIC_MOVIE,18,123,51,8
+    LTEXT           "ピクセルシェダー",IDC_STATIC_PIXELSHADER,19,82,62,8
+    CONTROL         "不要",IDC_RADIO_NEEDSHADER_AUTO,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP,88,80,30,10
+    CONTROL         "1.1以上",IDC_RADIO_NEEDSHADER_1_1,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,147,80,38,10
+    CONTROL         "2.0以上",IDC_RADIO_NEEDSHADER_2_0,"Button",BS_AUTORADIOBUTTON,190,80,38,10
+    CONTROL         "3.0以上",IDC_RADIO_NEEDSHADER_3_0,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,235,80,38,10
+    LTEXT           "Lowテクスチャ",IDC_STATIC_LOWTEXTURE,18,214,61,8
+    CONTROL         "テクスチャを節約",IDC_CHECK_LOWTEXTURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,212,89,10
+    LTEXT           "DirectDraw",IDC_STATIC,19,41,56,8
+    CONTROL         "自動",IDC_RADIO_DIRECTDRAW_AUTO,"Button",BS_AUTORADIOBUTTON,88,41,36,10
+    CONTROL         "使わない",IDC_RADIO_DIRECTDRAW_NOTUSE,"Button",BS_AUTORADIOBUTTON,146,41,42,10
+END
+
+IDD_DIALOG2 DIALOGEX 0, 0, 316, 185
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,205,164,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,259,164,50,14
+END
+
+IDD_DIALOG_NNNCONFIG3 DIALOGEX 0, 0, 278, 257
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック", 400, 0, 0x80
+BEGIN
+    CONTROL         "拡張チェックボタン1",IDC_EXPCHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,23,101,10
+    CONTROL         "拡張チェックボタン2",IDC_EXPCHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,52,101,10
+    CONTROL         "拡張チェックボタン3",IDC_EXPCHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,81,101,10
+    CONTROL         "拡張チェックボタン4",IDC_EXPCHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,110,101,10
+    CONTROL         "拡張チェックボタン5",IDC_EXPCHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,139,101,10
+    CONTROL         "拡張チェックボタン6",IDC_EXPCHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,168,101,10
+    CONTROL         "拡張チェックボタン7",IDC_EXPCHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,197,101,10
+    CONTROL         "拡張チェックボタン8",IDC_EXPCHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,226,101,10
+    CONTROL         "拡張チェックボタン9",IDC_EXPCHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,23,101,10
+    CONTROL         "拡張チェックボタン10",IDC_EXPCHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,52,101,10
+    CONTROL         "拡張チェックボタン11",IDC_EXPCHECK11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,81,101,10
+    CONTROL         "拡張チェックボタン12",IDC_EXPCHECK12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,110,101,10
+    CONTROL         "拡張チェックボタン13",IDC_EXPCHECK13,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,139,101,10
+    CONTROL         "拡張チェックボタン14",IDC_EXPCHECK14,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,168,101,10
+    CONTROL         "拡張チェックボタン15",IDC_EXPCHECK15,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,197,101,10
+    CONTROL         "拡張チェックボタン16",IDC_EXPCHECK16,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,226,101,10
+END
+
+IDD_DIALOG_NNNCONFIG4 DIALOGEX 0, 0, 274, 239
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "ＭＳ Ｐゴシック", 400, 0, 0x80
+BEGIN
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG_NNNCONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 281
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 230
+    END
+
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 322
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 320
+    END
+
+    IDD_DIALOG_NNNCONFIG2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 287
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 250
+    END
+
+    IDD_DIALOG2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 178
+    END
+
+    IDD_DIALOG_NNNCONFIG3, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 271
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 250
+    END
+
+    IDD_DIALOG_NNNCONFIG4, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 232
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "NNNConfig.ico"
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

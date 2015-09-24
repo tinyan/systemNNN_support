@@ -1,0 +1,35 @@
+<html>
+<body>
+<pre>
+<h1>ﾋﾞﾙﾄﾞのﾛｸﾞ</h1>
+<h3>
+--------------------構成: pacNyan - Win32 Release--------------------
+</h3>
+<h3>ｺﾏﾝﾄﾞ ﾗｲﾝ</h3>
+一時ﾌｧｲﾙ "C:\DOCUME~1\TINYAN~1.LEM\LOCALS~1\Temp\RSPE.tmp" を作成し、次の内容を記録します
+[
+/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Release/pacNyan.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\tinyan\pacNyan\main.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\TINYAN~1.LEM\LOCALS~1\Temp\RSPE.tmp" 
+一時ﾌｧｲﾙ "C:\DOCUME~1\TINYAN~1.LEM\LOCALS~1\Temp\RSPF.tmp" を作成し、次の内容を記録します
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/pacNyan.pdb" /machine:I386 /out:"Release/pacNyan.exe" 
+.\Release\checkfiledate.obj
+.\Release\main.obj
+.\Release\packroutine.obj
+.\Release\script1.res
+]
+ｺﾏﾝﾄﾞ ﾗｲﾝ "link.exe @C:\DOCUME~1\TINYAN~1.LEM\LOCALS~1\Temp\RSPF.tmp" の作成中
+<h3>ｱｳﾄﾌﾟｯﾄ ｳｨﾝﾄﾞｳ</h3>
+ｺﾝﾊﾟｲﾙ中...
+main.cpp
+ﾘﾝｸ中...
+
+
+
+<h3>結果</h3>
+pacNyan.exe - ｴﾗｰ 0、警告 0
+</pre>
+</body>
+</html>
