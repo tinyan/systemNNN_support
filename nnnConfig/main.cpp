@@ -133,6 +133,7 @@ HWND m_fontNameList;
 HWND m_noSkipFrameButton;
 HWND m_useVMRButton;
 
+HWND m_totalVolumeSlider;
 HWND m_musicVolumeSlider;
 HWND m_soundVolumeSlider;
 HWND m_voiceVolumeSlider;
@@ -140,6 +141,7 @@ HWND m_movieVolumeSlider;
 HWND m_soundVoiceVolumeSlider;
 HWND m_messageSpeedSlider;
 
+HWND m_totalCheck;
 HWND m_musicCheck;
 HWND m_soundCheck;
 HWND m_voiceCheck;
@@ -152,6 +154,8 @@ HWND m_dialog1;
 HWND m_dialog2;
 HWND m_dialog3;
 HWND m_dialog4;
+HWND m_dialog5;
+HWND m_dialog6;
 
 HWND m_directDrawAutoRadio;
 HWND m_directDrawNotUseRadio;
@@ -204,6 +208,10 @@ int m_soundVoiceVolumeNotUse = 1;
 int m_lowTextureFlag = 0;
 int m_totalVolumeUseFlag = 0;
 
+int m_screenStrecthFlag = 0;
+int m_screenSizeType = 0;
+int m_screenSizeTypeMax = 0;
+
 int m_directDrawNotUse;
 
 void MaskFont(void);
@@ -228,6 +236,10 @@ void SetVolumeSwitch(void);
 void SetLowTextureButton(void);
 
 void SetExpCheckButton(void);
+void SetExpRadioButton(void);
+void SetScreenSizeButton(void);
+
+
 
 void DataByLoad(void);
 void DataForSave(void);
@@ -253,6 +265,9 @@ void GetVolumeSwitch(void);
 void GetLowTextureButton(void);
 
 void GetExpCheckButton(void);
+void GetExpRadioButton(void);
+void GetScreenSizeButton(void);
+
 
 int AdjustVolumeByLoad(int vol);
 int AdjustVolumeForSave(int vol);
@@ -266,6 +281,8 @@ int m_gameTabNumber = -1;
 int m_systemTabNumber = -1;
 int m_expCheckTabNumber = -1;
 int m_expRadioTabNumber = -1;
+int m_expRadioTabNumber2 = -1;
+int m_screenSizeTabNumber = -1;
 
 int m_codeByte = 2;
 
@@ -277,6 +294,10 @@ int m_expRadio[16];
 
 HWND m_expCheckButton[16];
 HWND m_expRadioButton[16][8];
+int m_expRadioButtonMax[16] = {2,2,2,2,2,2,2,2,4,4,4,4,8,8,16,0};
+int m_expRadioButtonUse[16] = {2,2,2,2,2,2,2,2,4,4,4,4,8,8,16,0};
+
+
 
 int m_expCheckID[16]=
 {
@@ -285,6 +306,58 @@ int m_expCheckID[16]=
 	IDC_EXPCHECK9,IDC_EXPCHECK10,IDC_EXPCHECK11,IDC_EXPCHECK12,
 	IDC_EXPCHECK13,IDC_EXPCHECK14,IDC_EXPCHECK15,IDC_EXPCHECK16,
 };
+
+int m_expRadioCheckID[16][16]=
+{
+	{IDC_EXPRADIO1_1,IDC_EXPRADIO1_2},
+	{IDC_EXPRADIO2_1,IDC_EXPRADIO2_2},
+	{IDC_EXPRADIO3_1,IDC_EXPRADIO3_2},
+	{IDC_EXPRADIO4_1,IDC_EXPRADIO4_2},
+	{IDC_EXPRADIO5_1,IDC_EXPRADIO5_2},
+	{IDC_EXPRADIO6_1,IDC_EXPRADIO6_2},
+	{IDC_EXPRADIO7_1,IDC_EXPRADIO7_2},
+	{IDC_EXPRADIO8_1,IDC_EXPRADIO8_2},
+	
+	{IDC_EXPRADIO9_1,IDC_EXPRADIO9_2,IDC_EXPRADIO9_3,IDC_EXPRADIO9_4},
+	{IDC_EXPRADIO10_1,IDC_EXPRADIO10_2,IDC_EXPRADIO10_3,IDC_EXPRADIO10_4},
+	{IDC_EXPRADIO11_1,IDC_EXPRADIO11_2,IDC_EXPRADIO11_3,IDC_EXPRADIO11_4},
+	{IDC_EXPRADIO12_1,IDC_EXPRADIO12_2,IDC_EXPRADIO12_3,IDC_EXPRADIO12_4},
+
+
+	{IDC_EXPRADIO13_1,IDC_EXPRADIO13_2,IDC_EXPRADIO13_3,IDC_EXPRADIO13_4,
+	 IDC_EXPRADIO13_5,IDC_EXPRADIO13_6,IDC_EXPRADIO13_7,IDC_EXPRADIO13_8},
+	{IDC_EXPRADIO14_1,IDC_EXPRADIO14_2,IDC_EXPRADIO14_3,IDC_EXPRADIO14_4,
+	 IDC_EXPRADIO14_5,IDC_EXPRADIO14_6,IDC_EXPRADIO14_7,IDC_EXPRADIO14_8},
+
+	{IDC_EXPRADIO15_1,IDC_EXPRADIO15_2,IDC_EXPRADIO15_3,IDC_EXPRADIO15_4,
+	 IDC_EXPRADIO15_5,IDC_EXPRADIO15_6,IDC_EXPRADIO15_7,IDC_EXPRADIO15_8,
+	 IDC_EXPRADIO15_9,IDC_EXPRADIO15_10,IDC_EXPRADIO15_11,IDC_EXPRADIO15_12,
+	 IDC_EXPRADIO15_13,IDC_EXPRADIO15_14,IDC_EXPRADIO15_15,IDC_EXPRADIO15_16},
+};
+
+
+
+int m_expRadioCaptionID[16]=
+{
+	IDC_STATIC_RADIO1,IDC_STATIC_RADIO2,IDC_STATIC_RADIO3,IDC_STATIC_RADIO4,
+	IDC_STATIC_RADIO5,IDC_STATIC_RADIO6,IDC_STATIC_RADIO7,IDC_STATIC_RADIO8,
+	IDC_STATIC_RADIO9,IDC_STATIC_RADIO10,IDC_STATIC_RADIO11,IDC_STATIC_RADIO12,
+	IDC_STATIC_RADIO13,IDC_STATIC_RADIO14,IDC_STATIC_RADIO15,0
+};
+
+int m_screenSizeID[16] = 
+{
+	IDC_RADIO_SCREENSIZE1,IDC_RADIO_SCREENSIZE2,IDC_RADIO_SCREENSIZE3,IDC_RADIO_SCREENSIZE4,
+	IDC_RADIO_SCREENSIZE5,IDC_RADIO_SCREENSIZE6,IDC_RADIO_SCREENSIZE7,IDC_RADIO_SCREENSIZE8,
+	IDC_RADIO_SCREENSIZE9,IDC_RADIO_SCREENSIZE10,IDC_RADIO_SCREENSIZE11,IDC_RADIO_SCREENSIZE12,
+	IDC_RADIO_SCREENSIZE13,IDC_RADIO_SCREENSIZE14,IDC_RADIO_SCREENSIZE15,IDC_RADIO_SCREENSIZE16
+};
+
+HWND m_screenStretchButton = NULL;
+HWND m_screenSizeButton[16];
+
+
+
 
 int SearchExpCheckID(int wParam);
 
@@ -374,7 +447,7 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 
 
 
-	m_buffer = new char[65536];
+	m_buffer = new char[65536*4];
 
 
 	if (LoadSystemFile() == FALSE)
@@ -470,7 +543,7 @@ BOOL LoadSystemFile(void)
 
 	if (file == NULL) return FALSE;
 
-	m_dataSize = fread(m_buffer,sizeof(char),65536,file);
+	m_dataSize = fread(m_buffer,sizeof(char),65536*4,file);
 	fclose(file);
 
 	char* ptr = m_buffer;
@@ -516,7 +589,7 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 
 
-		TC_ITEM tcItem[4];
+		TC_ITEM tcItem[6];
 		tcItem[0].mask = TCIF_TEXT;
 		tcItem[0].pszText = "ゲーム設定";
 		if (m_codeByte == 1)
@@ -534,7 +607,7 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_systemTabNumber = TabCtrl_InsertItem(m_nnnTab,1,&tcItem[1]);
 
 
-		m_expCheckTabNumber = 1;
+		m_expCheckTabNumber = -1;
 
 		if (m_useExpCheck > 0)
 		{
@@ -563,11 +636,39 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			m_expRadioTabNumber = TabCtrl_InsertItem(m_nnnTab,3,&tcItem[3]);
 		}
 
+		if (m_useExpRadio > 12)
+		{
+			tcItem[4].mask = TCIF_TEXT;
+			tcItem[4].pszText = "拡張ラジオ設定2";
+			if (m_codeByte == 1)
+			{
+				tcItem[4].pszText = "ExRadioSetup2";	
+			}
+
+			m_expRadioTabNumber2 = TabCtrl_InsertItem(m_nnnTab,4,&tcItem[4]);
+		}
+
+		GetInitGameParam(&m_screenSizeTypeMax,"screenSizeTypeNumber");
+
+		if (m_screenSizeTypeMax > 1)
+		{
+			tcItem[5].mask = TCIF_TEXT;
+			tcItem[5].pszText = "スクリーンサイズ設定";
+			if (m_codeByte == 1)
+			{
+				tcItem[5].pszText = "screenSizeSetup";	
+			}
+
+			m_expRadioTabNumber2 = TabCtrl_InsertItem(m_nnnTab,5,&tcItem[5]);
+		}
+
 
 		HWND child;
 		HWND child2;
 		HWND child3;
 		HWND child4;
+		HWND child5;
+		HWND child6;
 
 		if (m_codeByte == 1)
 		{
@@ -578,6 +679,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		child2 = CreateDialog(m_hInstance,MAKEINTRESOURCE(IDD_DIALOG_NNNCONFIG2),hWnd,DlgProc2);
 		child3 = CreateDialog(m_hInstance,MAKEINTRESOURCE(IDD_DIALOG_NNNCONFIG3),hWnd,DlgProc3);
 		child4 = CreateDialog(m_hInstance,MAKEINTRESOURCE(IDD_DIALOG_NNNCONFIG4),hWnd,DlgProc4);
+		child5 = CreateDialog(m_hInstance,MAKEINTRESOURCE(IDD_DIALOG_NNNCONFIG5),hWnd,DlgProc5);
+		child6 = CreateDialog(m_hInstance,MAKEINTRESOURCE(IDD_DIALOG_NNNCONFIG6),hWnd,DlgProc6);
 
 
 		RECT rc;
@@ -605,6 +708,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		ShowWindow(child2,SW_HIDE);
 		ShowWindow(child3,SW_HIDE);
 		ShowWindow(child4,SW_HIDE);
+		ShowWindow(child5,SW_HIDE);
+		ShowWindow(child6,SW_HIDE);
 
 		return 1;
 		break;
@@ -638,6 +743,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 			GetLowTextureButton();
 			GetExpCheckButton();
+			GetExpRadioButton();
+			GetScreenSizeButton();
 
 			EndDialog(hWnd,0);
 			break;
@@ -656,6 +763,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 				ShowWindow(m_dialog2,SW_HIDE);
 				ShowWindow(m_dialog3,SW_HIDE);
 				ShowWindow(m_dialog4,SW_HIDE);
+				ShowWindow(m_dialog5,SW_HIDE);
+				ShowWindow(m_dialog6,SW_HIDE);
 				ShowWindow(m_dialog1,SW_SHOW);
 			}
 			else if (cm == m_systemTabNumber)
@@ -663,6 +772,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 				ShowWindow(m_dialog1,SW_HIDE);
 				ShowWindow(m_dialog3,SW_HIDE);
 				ShowWindow(m_dialog4,SW_HIDE);
+				ShowWindow(m_dialog5,SW_HIDE);
+				ShowWindow(m_dialog6,SW_HIDE);
 				ShowWindow(m_dialog2,SW_SHOW);
 			}
 			else if (cm == m_expCheckTabNumber )
@@ -670,6 +781,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 				ShowWindow(m_dialog1,SW_HIDE);
 				ShowWindow(m_dialog2,SW_HIDE);
 				ShowWindow(m_dialog4,SW_HIDE);
+				ShowWindow(m_dialog5,SW_HIDE);
+				ShowWindow(m_dialog6,SW_HIDE);
 				ShowWindow(m_dialog3,SW_SHOW);
 			}
 			else if (cm == m_expRadioTabNumber )
@@ -677,7 +790,27 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 				ShowWindow(m_dialog1,SW_HIDE);
 				ShowWindow(m_dialog2,SW_HIDE);
 				ShowWindow(m_dialog3,SW_HIDE);
+				ShowWindow(m_dialog5,SW_HIDE);
+				ShowWindow(m_dialog6,SW_HIDE);
 				ShowWindow(m_dialog4,SW_SHOW);
+			}
+			else if (cm == m_expRadioTabNumber2 )
+			{
+				ShowWindow(m_dialog1,SW_HIDE);
+				ShowWindow(m_dialog2,SW_HIDE);
+				ShowWindow(m_dialog3,SW_HIDE);
+				ShowWindow(m_dialog4,SW_HIDE);
+				ShowWindow(m_dialog6,SW_HIDE);
+				ShowWindow(m_dialog5,SW_SHOW);
+			}
+			else if (cm == m_screenSizeTabNumber )
+			{
+				ShowWindow(m_dialog1,SW_HIDE);
+				ShowWindow(m_dialog2,SW_HIDE);
+				ShowWindow(m_dialog3,SW_HIDE);
+				ShowWindow(m_dialog4,SW_HIDE);
+				ShowWindow(m_dialog5,SW_HIDE);
+				ShowWindow(m_dialog6,SW_SHOW);
 			}
 
 		}
@@ -714,6 +847,7 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_voiceVolumeSlider = GetDlgItem(hWnd,IDC_SLIDER_VOICEVOLUME);
 		m_movieVolumeSlider = GetDlgItem(hWnd,IDC_SLIDER_MOVIEVOLUME);
 		m_soundVoiceVolumeSlider = GetDlgItem(hWnd,IDC_SLIDER_SOUNDVOICEVOLUME);
+		m_totalVolumeSlider = GetDlgItem(hWnd,IDC_SLIDER_TOTALVOLUME);
 
 		m_messageSpeedSlider = GetDlgItem(hWnd,IDC_SLIDER_MESSAGESPEED);
 
@@ -722,6 +856,7 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_voiceCheck = GetDlgItem(hWnd,IDC_CHECK_VOICESWITCH);
 		m_movieCheck = GetDlgItem(hWnd,IDC_CHECK_MOVIESWITCH);
 		m_soundVoiceCheck = GetDlgItem(hWnd,IDC_CHECK_SOUNDVOICESWITCH);
+		m_totalCheck = GetDlgItem(hWnd,IDC_CHECK_TOTALSWITCH);
 
 		if (m_windowButtonFlag == 0) EnableWindow(m_windowModeRadio,FALSE);
 		if (m_fullScreenButtonFlag == 0) EnableWindow(m_fullModeRadio,FALSE);
@@ -769,6 +904,7 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		SendMessage(m_voiceVolumeSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,100));
 		SendMessage(m_movieVolumeSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,100));
 		SendMessage(m_soundVoiceVolumeSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,100));
+		SendMessage(m_totalVolumeSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,100));
 
 		SendMessage(m_messageSpeedSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,4));
 
@@ -787,6 +923,7 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			SetWindowText(m_voiceCheck,"Voice");
 			SetWindowText(m_movieCheck,"Movie");
 			SetWindowText(m_soundVoiceCheck,"SoundVoice");
+			SetWindowText(m_totalCheck,"Total");
 
 			SetWindowText(GetDlgItem(hWnd,IDC_STATIC_MESSAGESPEED),"MessageSpeed");
 		}
@@ -1115,6 +1252,89 @@ BOOL CALLBACK DlgProc4( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	return FALSE;
 }
 
+
+BOOL CALLBACK DlgProc5( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+{
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		m_dialog5 = hWnd;
+
+
+		RECT rc;
+		GetWindowRect(hWnd,&rc);
+		int sx,sy;
+		sx = rc.right - rc.left;
+		sy = rc.bottom - rc.top;
+
+		MoveWindow(hWnd,32,32,sx,sy,TRUE);
+
+		return 1;
+		break;
+
+	case WM_COMMAND:
+		switch (wParam)
+		{
+//				UpdateWindow(hWnd);
+
+		case 1:
+		default:
+			break;
+		}
+		break;
+
+	case WM_CLOSE:
+//		EndDialog(hWnd,1);
+		break;
+	}
+
+	return FALSE;
+}
+
+BOOL CALLBACK DlgProc6( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+{
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		m_dialog6 = hWnd;
+
+		m_screenStretchButton = GetDlgItem(hWnd,IDC_CHECK_SCREENSTRETCH);
+		for (int i=0;i<16;i++)
+		{
+			m_screenSizeButton[i] = GetDlgItem(hWnd,m_screenSizeID[i]);
+		}
+
+
+		RECT rc;
+		GetWindowRect(hWnd,&rc);
+		int sx,sy;
+		sx = rc.right - rc.left;
+		sy = rc.bottom - rc.top;
+
+		MoveWindow(hWnd,32,32,sx,sy,TRUE);
+
+		return 1;
+		break;
+
+	case WM_COMMAND:
+		switch (wParam)
+		{
+//				UpdateWindow(hWnd);
+
+		case 1:
+		default:
+			break;
+		}
+		break;
+
+	case WM_CLOSE:
+//		EndDialog(hWnd,1);
+		break;
+	}
+
+	return FALSE;
+}
+
 void DataForSave(void)
 {
 	m_systemdata->fullScreenFlag = m_screenMode;
@@ -1164,6 +1384,17 @@ void DataForSave(void)
 	for (int i=0;i<16;i++)
 	{
 		m_systemdata->expMode[i] = m_expRadio[i];
+	}
+
+	
+	m_systemdata->screenSizeType = m_screenSizeType;
+	if (m_screenStrecthFlag)
+	{
+		m_systemdata->genericFlag |= 1;
+	}
+	else
+	{
+		m_systemdata->genericFlag &= ~1;
 	}
 
 
@@ -1225,6 +1456,9 @@ void DataByLoad(void)
 	{
 		m_expRadio[i] = m_systemdata->expMode[i];
 	}
+
+	m_screenSizeType = m_systemdata->screenSizeType;
+	m_screenStrecthFlag = m_systemdata->genericFlag & 1;
 }
 
 
@@ -1457,6 +1691,9 @@ void SetVolumeSlider(void)
 
 	vol = AdjustVolumeByLoad(m_soundVoiceVolume);
 	SendMessage(m_soundVoiceVolumeSlider,TBM_SETPOS,(WPARAM)TRUE,vol);
+
+	SendMessage(m_totalVolumeSlider,TBM_SETPOS,(WPARAM)TRUE,m_totalVolume);
+
 }
 
 
@@ -1516,6 +1753,14 @@ void SetExpCheckButton(void)
 	}
 }
 //get
+
+void SetExpRadioButton(void)
+{
+}
+
+void SetScreenSizeButton(void)
+{
+}
 
 
 void GetScreenModeButton(void)
@@ -1691,6 +1936,7 @@ void GetVolumeSlider(void)
 	m_voiceVolume = AdjustVolumeForSave(SendMessage(m_voiceVolumeSlider,TBM_GETPOS,0,0));
 	m_movieVolume = AdjustVolumeForSave(SendMessage(m_movieVolumeSlider,TBM_GETPOS,0,0));
 	m_soundVoiceVolume = AdjustVolumeForSave(SendMessage(m_soundVoiceVolumeSlider,TBM_GETPOS,0,0));
+	m_totalVolume = SendMessage(m_totalVolumeSlider,TBM_GETPOS,0,0);
 }
 
 void GetMessageSpeedSlider(void)
@@ -1706,12 +1952,14 @@ void GetVolumeSwitch(void)
 	m_voiceSwitch = 0;
 	m_movieSwitch = 0;
 	m_soundVoiceSwitch = 0;
-	
+	m_totalVolumeSwitch = 0;
+
 	if (SendMessage(m_musicCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_musicSwitch = 1;
 	if (SendMessage(m_soundCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_soundSwitch = 1;
 	if (SendMessage(m_voiceCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_voiceSwitch = 1;
 	if (SendMessage(m_movieCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_movieSwitch = 1;
 	if (SendMessage(m_soundVoiceCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_soundVoiceSwitch = 1;
+	if (SendMessage(m_totalCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_totalVolumeSwitch = 1;
 }
 
 
@@ -1741,6 +1989,27 @@ void GetExpCheckButton(void)
 			m_expCheck[i] = 0;
 		}
 	}
+}
+
+void GetExpRadioButton(void)
+{
+	for (int i=0;i<16;i++)
+	{
+		int use = m_expRadioButtonUse[i];
+		for (int k=0;k<use;k++)
+		{
+			if (SendMessage(m_expRadioButton[i][k],BM_GETCHECK,0,0) == BST_CHECKED)
+			{
+				m_expRadio[i] = k;
+			}
+		}
+	}
+}
+
+
+void GetScreenSizeButton(void)
+{
+
 }
 
 

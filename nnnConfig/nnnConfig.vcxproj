@@ -158,6 +158,9 @@
     <ClInclude Include="..\..\systemNNN\nnnUtilLib\namelist.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="NNNConfig.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

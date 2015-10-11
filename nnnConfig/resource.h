@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by script1.rc
+// Microsoft Visual C++ で生成されたインクルード ファイル。
+// script1.rc で使用
 //
 #define IDD_DIALOG_NNNCONFIG            102
 #define IDD_DIALOG1                     103
@@ -10,6 +10,8 @@
 #define IDD_DIALOG3                     107
 #define IDD_DIALOG_NNNCONFIG4           107
 #define IDI_ICON1                       112
+#define IDD_DIALOG_NNNCONFIG5           113
+#define IDD_DIALOG_NNNCONFIG6           114
 #define IDC_RADIO_WINDOW                1000
 #define IDC_RADIO_FULL                  1001
 #define IDC_RADIO_SKIPREAD              1003
@@ -78,19 +80,119 @@
 #define IDC_EXPCHECK10                  1067
 #define IDC_RADIO_DIRECTDRAW_NOTUSE     1067
 #define IDC_EXPCHECK11                  1068
+#define IDC_CHECK_TOTALSWITCH           1068
 #define IDC_EXPCHECK12                  1069
+#define IDC_SLIDER_TOTALVOLUME          1069
 #define IDC_EXPCHECK13                  1070
 #define IDC_EXPCHECK14                  1071
 #define IDC_EXPCHECK15                  1072
+#define IDC_CHECK_SCREENSTRETCH         1072
 #define IDC_EXPCHECK16                  1073
+#define IDC_EXPRADIO15_1                1086
+#define IDC_STATIC_CANNOTFULLCAPTION    1087
+#define IDC_EXPRADIO15_2                1087
+#define IDC_RADIO_SCREENSIZE1           1088
+#define IDC_EXPRADIO15_3                1088
+#define IDC_RADIO_SCREENSIZE2           1089
+#define IDC_EXPRADIO15_4                1089
+#define IDC_RADIO_SCREENSIZE3           1090
+#define IDC_EXPRADIO15_5                1090
+#define IDC_RADIO_SCREENSIZE4           1091
+#define IDC_EXPRADIO15_6                1091
+#define IDC_RADIO_SCREENSIZE5           1092
+#define IDC_EXPRADIO15_7                1092
+#define IDC_RADIO_SCREENSIZE6           1093
+#define IDC_EXPRADIO15_8                1093
+#define IDC_RADIO_SCREENSIZE7           1094
+#define IDC_EXPRADIO15_9                1094
+#define IDC_RADIO_SCREENSIZE8           1095
+#define IDC_EXPRADIO15_10               1095
+#define IDC_RADIO_SCREENSIZE9           1096
+#define IDC_EXPRADIO15_11               1096
+#define IDC_RADIO_SCREENSIZE10          1097
+#define IDC_EXPRADIO15_12               1097
+#define IDC_RADIO_SCREENSIZE11          1098
+#define IDC_EXPRADIO15_13               1098
+#define IDC_RADIO_SCREENSIZE12          1099
+#define IDC_EXPRADIO15_14               1099
+#define IDC_RADIO_SCREENSIZE13          1100
+#define IDC_EXPRADIO15_15               1100
+#define IDC_RADIO_SCREENSIZE14          1101
+#define IDC_EXPRADIO16_8                1101
+#define IDC_EXPRADIO15_16               1101
+#define IDC_RADIO_SCREENSIZE15          1102
+#define IDC_EXPRADIO14_1                1102
+#define IDC_RADIO_SCREENSIZE16          1103
+#define IDC_EXPRADIO14_2                1103
+#define IDC_EXPRADIO1_1                 1104
+#define IDC_EXPRADIO14_3                1104
+#define IDC_EXPRADIO1_2                 1105
+#define IDC_EXPRADIO14_4                1105
+#define IDC_EXPRADIO2_1                 1106
+#define IDC_EXPRADIO14_5                1106
+#define IDC_EXPRADIO2_2                 1107
+#define IDC_EXPRADIO14_6                1107
+#define IDC_EXPRADIO3_1                 1108
+#define IDC_EXPRADIO14_7                1108
+#define IDC_EXPRADIO3_2                 1109
+#define IDC_EXPRADIO14_8                1109
+#define IDC_EXPRADIO4_1                 1110
+#define IDC_EXPRADIO13_1                1110
+#define IDC_EXPRADIO4_2                 1111
+#define IDC_EXPRADIO13_2                1111
+#define IDC_EXPRADIO5_1                 1112
+#define IDC_EXPRADIO13_3                1112
+#define IDC_EXPRADIO5_2                 1113
+#define IDC_EXPRADIO13_4                1113
+#define IDC_EXPRADIO6_1                 1114
+#define IDC_EXPRADIO13_5                1114
+#define IDC_EXPRADIO6_2                 1115
+#define IDC_EXPRADIO13_6                1115
+#define IDC_EXPRADIO7_1                 1116
+#define IDC_EXPRADIO13_7                1116
+#define IDC_EXPRADIO7_2                 1117
+#define IDC_EXPRADIO13_8                1117
+#define IDC_EXPRADIO8_1                 1118
+#define IDC_EXPRADIO8_2                 1119
+#define IDC_EXPRADIO9_1                 1120
+#define IDC_EXPRADIO9_2                 1121
+#define IDC_EXPRADIO9_3                 1122
+#define IDC_EXPRADIO9_4                 1123
+#define IDC_EXPRADIO10_1                1124
+#define IDC_EXPRADIO10_2                1125
+#define IDC_EXPRADIO10_3                1126
+#define IDC_EXPRADIO10_4                1127
+#define IDC_EXPRADIO11_1                1128
+#define IDC_EXPRADIO11_2                1129
+#define IDC_EXPRADIO11_3                1130
+#define IDC_EXPRADIO11_4                1131
+#define IDC_EXPRADIO12_1                1132
+#define IDC_EXPRADIO12_2                1133
+#define IDC_EXPRADIO12_3                1134
+#define IDC_EXPRADIO12_4                1135
+#define IDC_STATIC_RADIO1               1136
+#define IDC_STATIC_RADIO2               1137
+#define IDC_STATIC_RADIO3               1138
+#define IDC_STATIC_RADIO4               1139
+#define IDC_STATIC_RADIO5               1140
+#define IDC_STATIC_RADIO6               1141
+#define IDC_STATIC_RADIO7               1142
+#define IDC_STATIC_RADIO8               1143
+#define IDC_STATIC_RADIO9               1144
+#define IDC_STATIC_RADIO10              1146
+#define IDC_STATIC_RADIO11              1148
+#define IDC_STATIC_RADIO12              1150
+#define IDC_STATIC_RADIO15              1156
+#define IDC_STATIC_RADIO14              1158
+#define IDC_STATIC_RADIO13              1159
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        113
+#define _APS_NEXT_RESOURCE_VALUE        115
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1068
+#define _APS_NEXT_CONTROL_VALUE         1158
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
