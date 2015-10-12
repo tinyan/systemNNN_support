@@ -142,6 +142,9 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\SystemNNN\nnnUtilLib\allPackData.cpp" />
+    <ClCompile Include="..\..\SystemNNN\nnnUtilLib\allPackFile.cpp" />
+    <ClCompile Include="..\..\SystemNNN\nnnUtilLib\allPackHash.cpp" />
     <ClCompile Include="..\..\systemNNN\nnnUtilLib\currentDirControl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="..\..\systemNNN\nyanLib\myFile.cpp" />
@@ -152,6 +155,9 @@
     <ResourceCompile Include="script1.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\SystemNNN\nnnUtilLib\allPackData.h" />
+    <ClInclude Include="..\..\SystemNNN\nnnUtilLib\allPackFile.h" />
+    <ClInclude Include="..\..\SystemNNN\nnnUtilLib\allPackHash.h" />
     <ClInclude Include="..\..\systemNNN\nnnUtilLib\currentDirControl.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="..\..\systemNNN\nnnUtilLib\mySaveFolder.h" />

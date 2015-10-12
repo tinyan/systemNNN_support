@@ -272,6 +272,8 @@ void GetScreenSizeButton(void);
 int AdjustVolumeByLoad(int vol);
 int AdjustVolumeForSave(int vol);
 
+void ReplaceName(LPSTR name,LPSTR replaceChara);
+
 HINSTANCE m_hInstance = NULL;
 
 int m_useExpCheck = 0;
@@ -611,6 +613,7 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 		if (m_useExpCheck > 0)
 		{
+
 			tcItem[2].mask = TCIF_TEXT;
 			tcItem[2].pszText = "拡張チェック設定";
 
@@ -626,16 +629,22 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 		if (m_useExpRadio > 0)
 		{
-			tcItem[3].mask = TCIF_TEXT;
-			tcItem[3].pszText = "拡張ラジオ設定";
-			if (m_codeByte == 1)
+			int noCreate = 0;
+			GetInitGameParam(&noCreate,"disableExpRadioTab1");
+			if (noCreate == 0)
 			{
-				tcItem[3].pszText = "ExRadioSetup";	
-			}
+				tcItem[3].mask = TCIF_TEXT;
+				tcItem[3].pszText = "拡張ラジオ設定";
+				if (m_codeByte == 1)
+				{
+					tcItem[3].pszText = "ExRadioSetup";	
+				}
 
-			m_expRadioTabNumber = TabCtrl_InsertItem(m_nnnTab,3,&tcItem[3]);
+				m_expRadioTabNumber = TabCtrl_InsertItem(m_nnnTab,3,&tcItem[3]);
+			}
 		}
 
+		m_expRadioTabNumber2 = -1;
 		if (m_useExpRadio > 12)
 		{
 			tcItem[4].mask = TCIF_TEXT;
@@ -650,6 +659,7 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 		GetInitGameParam(&m_screenSizeTypeMax,"screenSizeTypeNumber");
 
+		m_screenSizeTabNumber = -1;
 		if (m_screenSizeTypeMax > 1)
 		{
 			tcItem[5].mask = TCIF_TEXT;
@@ -659,7 +669,7 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 				tcItem[5].pszText = "screenSizeSetup";	
 			}
 
-			m_expRadioTabNumber2 = TabCtrl_InsertItem(m_nnnTab,5,&tcItem[5]);
+			m_screenSizeTabNumber = TabCtrl_InsertItem(m_nnnTab,5,&tcItem[5]);
 		}
 
 
@@ -1094,6 +1104,39 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			SetWindowText(m_lowTextureButton,"Low");
 		}
 
+		LPSTR replaceFontNameChara;
+		replaceFontNameChara = NULL;
+		GetInitGameString(&replaceFontNameChara,"replaceFontnameChara");
+
+		LPSTR font1;
+		font1 = NULL;
+		if (GetInitGameString(&font1,"gothicFontName"))
+		{
+			//replace?
+			if (replaceFontNameChara != NULL)
+			{
+				ReplaceName(font1,replaceFontNameChara);
+			}
+
+			SetWindowText(m_msGothicRadio,font1);
+		}
+		LPSTR font2;
+		font2 = NULL;
+		if (GetInitGameString(&font2,"minchoFontName"))
+		{
+			//replace?
+			if (replaceFontNameChara != NULL)
+			{
+				ReplaceName(font2,replaceFontNameChara);
+			}
+
+			SetWindowText(m_msMinchoRadio,font2);
+		}
+
+
+
+
+
 		SetDefaultFontButton();
 		SetUserFontButton();
 		SetSelectUserFontList();
@@ -1221,6 +1264,53 @@ BOOL CALLBACK DlgProc4( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	case WM_INITDIALOG:
 		m_dialog4 = hWnd;
 
+		for (int i=0;i<12;i++)
+		{
+			int kosuu = m_expRadioButtonMax[i];
+			for (int k=0;k<kosuu;k++)
+			{
+				m_expRadioButton[i][k] = GetDlgItem(hWnd,m_expRadioCheckID[i][k]);
+			}
+
+			if (i<m_useExpRadio)
+			{
+				char name[256];
+				wsprintf(name,"disableExpRadioConfig%d",i+1);
+				int dis = 0;
+				GetInitGameParam(&dis,name);
+				if (dis == 0)
+				{
+					for (int k=0;k<kosuu;k++)
+					{
+					//	EnableWindow(m_expRadioButton[i][k],TRUE);
+						ShowWindow(m_expRadioButton[i][k],SW_SHOW);
+
+						LPSTR cap = NULL;
+						wsprintf(name,"expRadioConfigCaption%d_%d",i+1,k+1);
+						if (GetInitGameString(&cap,name))
+						{
+							SetWindowText(m_expRadioButton[i][k],cap);
+						}
+
+					}
+					//title
+					if (1)
+					{
+						LPSTR cap = NULL;
+						wsprintf(name,"expRadioConfigStaticCation%d",i+1);
+						HWND captionHWnnd = GetDlgItem(hWnd,m_expRadioCaptionID[i]);
+						if (GetInitGameString(&cap,name))
+						{
+							SetWindowText(captionHWnnd,cap);
+						}
+						ShowWindow(captionHWnnd,SW_SHOW);
+					}
+				}
+			}
+		}
+
+
+		SetExpRadioButton();
 
 		RECT rc;
 		GetWindowRect(hWnd,&rc);
@@ -1261,6 +1351,53 @@ BOOL CALLBACK DlgProc5( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_dialog5 = hWnd;
 
 
+		for (int i=12;i<16;i++)
+		{
+			int kosuu = m_expRadioButtonMax[i];
+			for (int k=0;k<kosuu;k++)
+			{
+				m_expRadioButton[i][k] = GetDlgItem(hWnd,m_expRadioCheckID[i][k]);
+			}
+
+			if (i<m_useExpRadio)
+			{
+				char name[256];
+				wsprintf(name,"disableExpRadioConfig%d",i+1);
+				int dis = 0;
+				GetInitGameParam(&dis,name);
+				if (dis == 0)
+				{
+					for (int k=0;k<kosuu;k++)
+					{
+					//	EnableWindow(m_expRadioButton[i][k],TRUE);
+						ShowWindow(m_expRadioButton[i][k],SW_SHOW);
+
+						LPSTR cap = NULL;
+						wsprintf(name,"expRadioConfigCaption%d_%d",i+1,k+1);
+						if (GetInitGameString(&cap,name))
+						{
+							SetWindowText(m_expRadioButton[i][k],cap);
+						}
+
+					}
+					//title
+					if (1)
+					{
+						LPSTR cap = NULL;
+						wsprintf(name,"expRadioConfigStaticCation%d",i+1);
+						HWND captionHWnnd = GetDlgItem(hWnd,m_expRadioCaptionID[i]);
+						if (GetInitGameString(&cap,name))
+						{
+							SetWindowText(captionHWnnd,cap);
+						}
+						ShowWindow(captionHWnnd,SW_SHOW);
+					}
+				}
+			}
+		}
+
+		//SetExpRadioButton();
+
 		RECT rc;
 		GetWindowRect(hWnd,&rc);
 		int sx,sy;
@@ -1298,12 +1435,65 @@ BOOL CALLBACK DlgProc6( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	case WM_INITDIALOG:
 		m_dialog6 = hWnd;
 
+		HWND cannotMessage;
+		cannotMessage = GetDlgItem(hWnd,IDC_STATIC_CANNOTFULLCAPTION);
+		if (m_codeByte == 2)
+		{
+		//	SetWindowText(cannotMessage,"");
+		}
+		else
+		{
+			SetWindowText(cannotMessage,"*:cannot support FullScreenMode");
+			SetWindowText(GetDlgItem(hWnd,IDC_STATIC_SCREENSIZECAPTION),"Select screen size");
+			SetWindowText(GetDlgItem(hWnd,IDC_CHECK_SCREENSTRETCH),"Stretch screen");
+		}
+
+		ShowWindow(GetDlgItem(hWnd,IDC_STATIC_SCREENSIZECAPTION),SW_SHOW);
+
+
+
 		m_screenStretchButton = GetDlgItem(hWnd,IDC_CHECK_SCREENSTRETCH);
 		for (int i=0;i<16;i++)
 		{
 			m_screenSizeButton[i] = GetDlgItem(hWnd,m_screenSizeID[i]);
+			if (i<m_screenSizeTypeMax)
+			{
+				//string
+				int sizeX = 0;
+				int sizeY = 0;
+				char name[256];
+				wsprintf(name,"realWindowSizeX%d",i+1);
+				GetInitGameParam(&sizeX,name);
+				wsprintf(name,"realWindowSizeY%d",i+1);
+				GetInitGameParam(&sizeY,name);
+				//check
+				BOOL enable = TRUE;
+
+				if (enable)
+				{
+					wsprintf(name,"%dx%d",sizeX,sizeY);
+				}
+				else
+				{
+					if (m_codeByte == 2)
+					{
+						wsprintf(name,"※%dx%d",sizeX,sizeY);
+					}
+					else
+					{
+						wsprintf(name,"*%dx%d",sizeX,sizeY);
+					}
+				}
+
+				SetWindowText(m_screenSizeButton[i],name);
+
+				//show
+				ShowWindow(m_screenSizeButton[i],SW_SHOW);
+
+			}
 		}
 
+		SetScreenSizeButton();
 
 		RECT rc;
 		GetWindowRect(hWnd,&rc);
@@ -1760,6 +1950,17 @@ void SetExpRadioButton(void)
 
 void SetScreenSizeButton(void)
 {
+	for (int i=0;i<16;i++)
+	{
+		if (m_screenSizeType == i)
+		{
+			SendMessage(m_screenSizeButton[i],BM_SETCHECK,BST_CHECKED,0);
+		}
+		else
+		{
+			SendMessage(m_screenSizeButton[i],BM_SETCHECK,BST_UNCHECKED,0);
+		}
+	}
 }
 
 
@@ -2009,6 +2210,23 @@ void GetExpRadioButton(void)
 
 void GetScreenSizeButton(void)
 {
+	for (int i=0;i<16;i++)
+	{
+		if (SendMessage(m_screenSizeButton[i],BM_GETCHECK,0,0) == BST_CHECKED)
+		{
+			m_screenSizeType = i;
+			break;
+		}
+	}
+
+	if (SendMessage(m_screenStretchButton,BM_GETCHECK,0,0) == BST_CHECKED)
+	{
+		m_screenStrecthFlag |= 1;
+	}
+	else
+	{
+		m_screenStrecthFlag &= ~1;
+	}
 
 }
 
@@ -2141,6 +2359,33 @@ int AdjustVolumeForSave(int vol)
 	return v;
 }
 
+void ReplaceName(LPSTR name,LPSTR replaceChara)
+{
+	if (name == NULL) return;
+	if (replaceChara == NULL) return;
+	char rep = *replaceChara;
+
+	int ln = strlen(name);
+	int n = 0;
+	while (n<ln)
+	{
+		char c = *(name+n);
+		if (c == rep)
+		{
+			*(name + n) = ' ';
+		}
+
+		n++;
+		if (m_codeByte == 2)
+		{
+			int d = c;
+			d &= 0xff;
+
+			if ((d >= 0x80) && (d<0xa0)) n++;
+			if ((d >= 0xe0) && (d<0x100)) n++;
+		}
+	}
+}
 
 
 

@@ -30,6 +30,15 @@
     <ClCompile Include="..\..\systemNNN\nnnUtilLib\namelist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SystemNNN\nnnUtilLib\allPackData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SystemNNN\nnnUtilLib\allPackFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SystemNNN\nnnUtilLib\allPackHash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="script1.rc">
@@ -50,6 +59,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SystemNNN\nnnUtilLib\allPackData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SystemNNN\nnnUtilLib\allPackFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SystemNNN\nnnUtilLib\allPackHash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

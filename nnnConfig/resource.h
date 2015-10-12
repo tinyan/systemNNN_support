@@ -118,7 +118,6 @@
 #define IDC_RADIO_SCREENSIZE13          1100
 #define IDC_EXPRADIO15_15               1100
 #define IDC_RADIO_SCREENSIZE14          1101
-#define IDC_EXPRADIO16_8                1101
 #define IDC_EXPRADIO15_16               1101
 #define IDC_RADIO_SCREENSIZE15          1102
 #define IDC_EXPRADIO14_1                1102
@@ -184,6 +183,7 @@
 #define IDC_STATIC_RADIO12              1150
 #define IDC_STATIC_RADIO15              1156
 #define IDC_STATIC_RADIO14              1158
+#define IDC_STATIC_SCREENSIZECAPTION    1158
 #define IDC_STATIC_RADIO13              1159
 
 // Next default values for new objects
@@ -192,7 +192,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        115
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1158
+#define _APS_NEXT_CONTROL_VALUE         1159
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
