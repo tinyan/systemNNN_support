@@ -207,6 +207,7 @@ int m_soundVoiceVolumeNotUse = 1;
 
 int m_lowTextureFlag = 0;
 int m_totalVolumeUseFlag = 0;
+int m_totalVolumePrintFlag = 1;
 
 int m_screenStrecthFlag = 0;
 int m_screenSizeType = 0;
@@ -358,7 +359,15 @@ int m_screenSizeID[16] =
 HWND m_screenStretchButton = NULL;
 HWND m_screenSizeButton[16];
 
+BOOL m_screenSizeEnable[16] = 
+{
+	FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE
+};
 
+SIZE m_screenSizeTable[16]=
+{
+	{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}
+};
 
 
 int SearchExpCheckID(int wParam);
@@ -437,7 +446,7 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 	GetInitGameParam(&m_useExpRadio,"useExpRadioConfig");
 
 	GetInitGameParam(&m_totalVolumeUseFlag,"totalVolumeUseFlag");
-
+	GetInitGameParam(&m_totalVolumePrintFlag,"totalVolumePrintFlag");
 
 	m_systemFileName = m_normalSystemFileName;
 	GetInitGameParam(&m_taikenFlag,"taikenFlag");
@@ -884,6 +893,11 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			EnableWindow(m_soundVoiceVolumeSlider,FALSE);
 		}
 
+		if (m_totalVolumePrintFlag == 0)
+		{
+			ShowWindow(m_totalCheck,SW_HIDE);
+			ShowWindow(m_totalVolumeSlider,SW_HIDE);
+		}
 
 
 //		HDC hdc;
@@ -1105,7 +1119,7 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		}
 
 		LPSTR replaceFontNameChara;
-		replaceFontNameChara = NULL;
+		replaceFontNameChara = "?";
 		GetInitGameString(&replaceFontNameChara,"replaceFontnameChara");
 
 		LPSTR font1;
@@ -1451,11 +1465,8 @@ BOOL CALLBACK DlgProc6( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		ShowWindow(GetDlgItem(hWnd,IDC_STATIC_SCREENSIZECAPTION),SW_SHOW);
 
 
-
-		m_screenStretchButton = GetDlgItem(hWnd,IDC_CHECK_SCREENSTRETCH);
 		for (int i=0;i<16;i++)
 		{
-			m_screenSizeButton[i] = GetDlgItem(hWnd,m_screenSizeID[i]);
 			if (i<m_screenSizeTypeMax)
 			{
 				//string
@@ -1466,8 +1477,60 @@ BOOL CALLBACK DlgProc6( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 				GetInitGameParam(&sizeX,name);
 				wsprintf(name,"realWindowSizeY%d",i+1);
 				GetInitGameParam(&sizeY,name);
+				m_screenSizeTable[i].cx = sizeX;
+				m_screenSizeTable[i].cy = sizeY;
+			}
+		}
+
+
+
+
+		int devNum;
+		devNum = 0;
+		DEVMODE devMode2;
+		ZeroMemory(&devMode2,sizeof(devMode2));
+		devMode2.dmSize = sizeof(devMode2);
+//		devMode2.dmPelsWidth = m_windowSizeX;
+//		devMode2.dmPelsHeight = m_windowSizeY;
+		devMode2.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY | DM_BITSPERPEL;  
+//		BOOL cannot = TRUE;
+
+		while (EnumDisplaySettings(NULL,devNum,&devMode2))
+		{
+			if (devMode2.dmBitsPerPel >= 16)
+			{
+				int sizeX = devMode2.dmPelsWidth;
+				int sizeY = devMode2.dmPelsHeight;
+				for (int i=0;i<m_screenSizeTypeMax;i++)
+				{
+					if ((sizeX == m_screenSizeTable[i].cx) && (sizeY == m_screenSizeTable[i].cy))
+					{
+						m_screenSizeEnable[i] = TRUE;
+						break;
+					}
+				}
+			}
+			devNum++;
+		}
+
+
+
+		m_screenStretchButton = GetDlgItem(hWnd,IDC_CHECK_SCREENSTRETCH);
+		for (int i=0;i<16;i++)
+		{
+			m_screenSizeButton[i] = GetDlgItem(hWnd,m_screenSizeID[i]);
+			if (i<m_screenSizeTypeMax)
+			{
+				//string
+				int sizeX = m_screenSizeTable[i].cx;
+				int sizeY = m_screenSizeTable[i].cy;
+				char name[256];
+				wsprintf(name,"realWindowSizeX%d",i+1);
+				GetInitGameParam(&sizeX,name);
+				wsprintf(name,"realWindowSizeY%d",i+1);
+				GetInitGameParam(&sizeY,name);
 				//check
-				BOOL enable = TRUE;
+				BOOL enable = m_screenSizeEnable[i];
 
 				if (enable)
 				{
@@ -1914,6 +1977,11 @@ void SetVolumeSwitch(void)
 	st = BST_UNCHECKED;
 	if (m_soundVoiceSwitch) st = BST_CHECKED;
 	SendMessage(m_soundVoiceCheck,BM_SETCHECK,st,0);
+
+	st = BST_UNCHECKED;
+	if (m_totalVolumeSwitch) st = BST_CHECKED;
+	SendMessage(m_totalCheck,BM_SETCHECK,st,0);
+
 }
 
 void SetLowTextureButton(void)
