@@ -1,1 +1,1 @@
-copy ..\..\nnnEditRelease\nnnConfig2.exe ..\..\nnnTool
+copy ..\..\nnnEditRelease\nnnConfig2017.exe ..\..\nnnTool
