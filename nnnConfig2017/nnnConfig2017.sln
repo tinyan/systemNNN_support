@@ -7,16 +7,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nnnConfig2017", "nnnConfig2
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_ver2|x64 = Debug_ver2|x64
+		Debug_ver2|x86 = Debug_ver2|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release_ver2|x64 = Release_ver2|x64
+		Release_ver2|x86 = Release_ver2|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug_ver2|x64.ActiveCfg = Debug_ver2|x64
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug_ver2|x64.Build.0 = Debug_ver2|x64
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug_ver2|x86.ActiveCfg = Debug_ver2|Win32
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug_ver2|x86.Build.0 = Debug_ver2|Win32
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug|x64.ActiveCfg = Debug|x64
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug|x64.Build.0 = Debug|x64
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug|x86.ActiveCfg = Debug|Win32
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Debug|x86.Build.0 = Debug|Win32
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release_ver2|x64.ActiveCfg = Release_ver2|x64
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release_ver2|x64.Build.0 = Release_ver2|x64
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release_ver2|x86.ActiveCfg = Release_ver2|Win32
+		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release_ver2|x86.Build.0 = Release_ver2|Win32
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release|x64.ActiveCfg = Release|x64
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release|x64.Build.0 = Release|x64
 		{F9E6D472-7970-4EC1-884F-ABECF0F92F35}.Release|x86.ActiveCfg = Release|Win32

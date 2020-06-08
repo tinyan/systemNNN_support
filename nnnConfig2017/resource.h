@@ -47,7 +47,9 @@
 #define IDC_CHECK_SOUNDVOICESWITCH      1037
 #define IDC_CHECK_LOWTEXTURE            1037
 #define IDC_SLIDER_SOUNDVOICEVOLUME     1038
+#define IDC_CHECK_SCRIPTSESWITCH        1039
 #define IDC_NNNTAB                      1040
+#define IDC_SLIDER_SCRIPTSEVOLUME       1040
 #define IDC_RADIO_2D3D_AUTO             1041
 #define IDC_RADIO_2D3D_2D               1042
 #define IDC_RADIO_2D3D_3D               1043
@@ -191,16 +193,18 @@
 #define IDC_RADIO_XAUDIO2_AUTO          1161
 #define IDC_RADIO_XAUDIO2_OFF           1162
 #define IDC_RADIO_DIRECT2D_AUTO         1163
-#define IDC_RADIO4                      1164
 #define IDC_RADIO_DIRECT2D_OFF          1164
+#define IDC_STATIC_FONTSAMPLE           1165
+#define IDC_CHECK1                      1166
+#define IDC_CHECK_VOICE_CONTINUE        1166
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        116
+#define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1165
+#define _APS_NEXT_CONTROL_VALUE         1167
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

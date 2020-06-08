@@ -30,11 +30,21 @@
 //#pragma comment(lib,"Comctl32.lib")
 
 #if !defined _DEBUG
+#if !defined __SYSTEMNNN_VER2__
 #pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nyanLib2017.lib")
 #pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nnnUtilLib2017_Win7.lib")
 #else
+#pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nyanLib2017_ver2_win7.lib")
+#pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nnnUtilLib2017_ver2_win7.lib")
+#endif
+#else
+#if !defined __SYSTEMNNN_VER2__
 #pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nyanLib2017D.lib")
 #pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nnnUtilLib2017_Win7D.lib")
+#else
+#pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nyanLib2017_ver2_win7D.lib")
+#pragma comment(lib,"d:\\tinyan\\systemNNNLib\\nnnUtilLib2017_ver2_Win7D.lib")
+#endif
 #endif
 
 //#define __TAIKEN_VERSION__
@@ -80,6 +90,7 @@ bool m_win10 = false;
 
 int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX *lpntme, int FontType,  LPARAM lParam);
 CCommonSystemFile::SYSTEMDATA* m_systemdata;
+CCommonSystemFile::SYSTEMFLAG2* m_systemFlag2 = nullptr;
 
 
 /*
@@ -92,13 +103,29 @@ CCommonSystemFile::SYSTEMDATA* m_systemdata;
 #endif
 */
 
+#define FONT_KOSUU_MAX 4096
+
+int m_fontSizeX[FONT_KOSUU_MAX];
+int m_fontSizeY[FONT_KOSUU_MAX];
+int m_selectedFontNumber = 0;
+
 
 char m_normalSystemFileName[] = "sysfile";
 char m_taikenSystemFileName[] = "tsysfile";
 char m_normalSystemFileName2[] = "sysfile2";
 char m_taikenSystemFileName2[] = "tsysfile2";
+char m_normalSystemFileName3[] = "sysfile3";
+char m_taikenSystemFileName3[] = "tsysfile3";
 LPSTR m_systemFileName = NULL;
 int m_taikenFlag = 0;
+
+char m_fontSampleTextDefault[] = "‚ ˜±‚`";
+LPSTR m_fontSampleText = nullptr;
+int m_fontSampleSize = 16;
+
+
+void ChangeMyFont(void);
+void ChangeGameFont(char* fontName);
 
 
 //char m_defaultMidiCaption[] = "MIDI";
@@ -153,6 +180,7 @@ HWND m_voiceVolumeSlider;
 HWND m_movieVolumeSlider;
 HWND m_soundVoiceVolumeSlider;
 HWND m_messageSpeedSlider;
+HWND m_scriptSEVolumeSlider;
 
 HWND m_totalCheck;
 HWND m_musicCheck;
@@ -160,6 +188,7 @@ HWND m_soundCheck;
 HWND m_voiceCheck;
 HWND m_movieCheck;
 HWND m_soundVoiceCheck;
+HWND m_scriptSECheck;
 
 
 HWND m_nnnTab;
@@ -187,6 +216,10 @@ HWND m_needshader_3_0_Radio;
 
 HWND m_lowTextureButton;
 
+HWND m_fontSample;
+HWND m_voiceContinueCheck;
+
+
 int	m_screenMode = 0;
 int	m_skipMode = 0;
 
@@ -207,6 +240,7 @@ int m_movieVolume = 90;
 int m_soundVoiceVolume = 90;
 int m_totalVolume = 90;
 int	m_messageSpeed = 2;
+int	m_scriptSEVolume = 90;
 
 int m_musicSwitch = 1;
 int m_soundSwitch = 1;
@@ -214,6 +248,7 @@ int m_voiceSwitch = 1;
 int m_movieSwitch = 1;
 int m_soundVoiceSwitch = 1;
 int m_totalVolumeSwitch = 1;
+int m_scriptSESwitch = 1;
 
 int m_movieVolumeNotUse = 0;
 int m_soundVoiceVolumeNotUse = 1;
@@ -229,6 +264,7 @@ int m_screenSizeTypeMax = 0;
 int m_useXAudio2Flag = 0;
 int m_useDirect2DFlag = 0;
 
+int m_voiceContinue = 0;
 
 int m_directDrawNotUse;
 
@@ -260,6 +296,8 @@ void SetExpRadioButton(void);
 void SetScreenSizeButton(void);
 void SetScreenStretchButton(void);
 
+void SetVoiceContinueCheck(void);
+
 
 
 void DataByLoad(void);
@@ -289,6 +327,8 @@ void GetUseWin10ExpButton(void);
 void GetExpCheckButton(void);
 void GetExpRadioButton(void);
 void GetScreenSizeButton(void);
+
+void GetVoiceContinueCheck(void);
 
 
 int AdjustVolumeByLoad(int vol);
@@ -413,7 +453,6 @@ int SearchExpCheckID(int wParam);
 
 int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCmdLine,  int nCmdShow)
 {
-
 	HANDLE mx = NULL;
 	m_hInstance = hInstance;
 
@@ -519,7 +558,11 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 	}
 	else
 	{
+#if !defined __SYSTEMNNN_VER2__
 		m_systemFileName = m_normalSystemFileName2;
+#else
+		m_systemFileName = m_normalSystemFileName3;
+#endif
 
 	}
 	GetInitGameParam(&m_taikenFlag,"taikenFlag");
@@ -532,7 +575,11 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 		}
 		else
 		{
+#if !defined __SYSTEMNNN_VER2__
 			m_systemFileName = m_taikenSystemFileName2;
+#else
+			m_systemFileName = m_taikenSystemFileName3;
+#endif
 		}
 	}
 
@@ -581,6 +628,10 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 
 	GetInitGameParam(&m_2d3dSelect,"select2D3D");
 
+
+	m_fontSampleText = m_fontSampleTextDefault;
+	GetInitGameString3(&m_fontSampleText, "fontSampleText");
+	GetInitGameParam3(&m_fontSampleSize, "fontSampleSize");
 
 
 
@@ -655,6 +706,26 @@ BOOL LoadSystemFile(void)
 	ptr += sizeof(CCommonSystemFile::SYSTEMDATAINFO);
 	m_systemdata = (CCommonSystemFile::SYSTEMDATA*)ptr;
 
+
+	CCommonSystemFile::SYSTEMDATAINFO* buffer = (CCommonSystemFile::SYSTEMDATAINFO*)ptr;
+
+	int kosuu = buffer->dataKosuu;
+	for (int i = 1; i < kosuu; i++)
+	{
+		if (buffer->code == 17)
+		{
+			m_systemFlag2 = (CCommonSystemFile::SYSTEMFLAG2*)buffer;
+			break;
+		}
+		ptr += buffer->size;
+		buffer = (CCommonSystemFile::SYSTEMDATAINFO*)ptr;
+	}
+
+
+
+
+
+
 	DataByLoad();
 	return TRUE;
 }
@@ -692,7 +763,9 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 		m_nnnTab = GetDlgItem(hWnd,IDC_NNNTAB);
 
-
+#if defined __SYSTEMNNN_VER2__
+		SetWindowText(hWnd, "nnnConfig3");
+#endif
 
 		TC_ITEM tcItem[6];
 		tcItem[0].mask = TCIF_TEXT;
@@ -861,6 +934,8 @@ BOOL CALLBACK DlgProc0( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			GetExpRadioButton();
 			GetScreenSizeButton();
 
+			GetVoiceContinueCheck();
+
 			EndDialog(hWnd,0);
 			break;
 		case IDCANCEL:
@@ -965,6 +1040,7 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_totalVolumeSlider = GetDlgItem(hWnd,IDC_SLIDER_TOTALVOLUME);
 
 		m_messageSpeedSlider = GetDlgItem(hWnd,IDC_SLIDER_MESSAGESPEED);
+		m_scriptSEVolumeSlider = GetDlgItem(hWnd, IDC_SLIDER_SCRIPTSEVOLUME);
 
 		m_musicCheck = GetDlgItem(hWnd,IDC_CHECK_MUSICSWITCH);
 		m_soundCheck = GetDlgItem(hWnd,IDC_CHECK_SOUNDSWITCH);
@@ -972,7 +1048,14 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_movieCheck = GetDlgItem(hWnd,IDC_CHECK_MOVIESWITCH);
 		m_soundVoiceCheck = GetDlgItem(hWnd,IDC_CHECK_SOUNDVOICESWITCH);
 		m_totalCheck = GetDlgItem(hWnd,IDC_CHECK_TOTALSWITCH);
+		m_scriptSECheck = GetDlgItem(hWnd, IDC_CHECK_SCRIPTSESWITCH);
 
+
+#if defined __SYSTEMNNN_VER2__
+		ShowWindow(m_scriptSEVolumeSlider, TRUE);
+		ShowWindow(m_scriptSECheck, TRUE);
+
+#endif
 		if (m_windowButtonFlag == 0) EnableWindow(m_windowModeRadio,FALSE);
 		if (m_fullScreenButtonFlag == 0) EnableWindow(m_fullModeRadio,FALSE);
 
@@ -1009,8 +1092,6 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 //
 //		ReleaseDC(hWnd,hdc);
 
-
-
 		SetScreenModeButton();
 		SetSkipModeButton();
 //		SetDefaultFontButton();
@@ -1027,6 +1108,7 @@ BOOL CALLBACK DlgProc1( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		SendMessage(m_totalVolumeSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,100));
 
 		SendMessage(m_messageSpeedSlider,TBM_SETRANGE,(WPARAM)FALSE,(LPARAM)MAKELONG(0,4));
+		SendMessage(m_scriptSEVolumeSlider, TBM_SETRANGE, (WPARAM)FALSE, (LPARAM)MAKELONG(0, 100));
 
 		if (m_codeByte == 1)
 		{
@@ -1210,6 +1292,44 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_useDirect2DRadioAuto = GetDlgItem(hWnd, IDC_RADIO_DIRECT2D_AUTO);
 		m_useDirect2DRadioOff = GetDlgItem(hWnd, IDC_RADIO_DIRECT2D_OFF);
 
+		m_voiceContinueCheck = GetDlgItem(hWnd, IDC_CHECK_VOICE_CONTINUE);
+
+
+#if defined __SYSTEMNNN_VER2__
+
+		ShowWindow(m_voiceContinueCheck, TRUE);
+
+
+		EnableWindow(m_useXAudio2RadioAuto, FALSE);
+//		EnableWindow(m_useXAudio2RadioOff, FALSE);
+
+		EnableWindow(m_useDirect2DRadioAuto, FALSE);
+//		EnableWindow(m_useDirect2DRadioOff, FALSE);
+
+#endif
+
+		m_fontSample = GetDlgItem(hWnd, IDC_STATIC_FONTSAMPLE);
+		SetWindowText(m_fontSample, m_fontSampleText);
+		ChangeMyFont();
+
+		/*
+		{
+			int fontsize = 13;
+			int m_fontWeight = FW_BOLD;
+			int m_fontItalic = 0;
+			int m_charaSet = SHIFTJIS_CHARSET;
+			LPSTR fontname = "‚l‚rƒSƒVƒbƒN";
+
+			HFONT hFont = CreateFont(fontsize * 2, fontsize * 2 / 2, 0, 0, m_fontWeight, m_fontItalic, FALSE, FALSE,
+				m_charaSet, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+				FIXED_PITCH | FF_DONTCARE,
+				fontname);
+			SendMessage(m_fontSample, WM_SETFONT, (WPARAM)hFont, (LPARAM)0);
+		}
+		*/
+
+
+
 		if (m_codeByte == 1)
 		{
 
@@ -1327,10 +1447,12 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		Set2D3DButton();
 		SetShaderButton();
 
+		SetVoiceContinueCheck();
+
 		SetLowTextureButton();
 
 		SetUseWin10ExpButton();
-
+		
 		MaskFont();
 
 		RECT rc;
@@ -1345,6 +1467,17 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		break;
 
 	case WM_COMMAND:
+		if (HIWORD(wParam) == CBN_SELCHANGE)
+		{
+			if (LOWORD(wParam) == IDC_COMBO_FONTNAME)
+			//if (lParam == IDC_COMBO_FONTNAME)
+			{
+				GetSelectUserFontList();
+				ChangeMyFont();
+				break;
+			}
+		}
+
 		switch (wParam)
 		{
 		case IDC_CHECK_USERFONT:
@@ -1354,10 +1487,33 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			if (m_userFontFlag != old2)
 			{
 				MaskFont();
+				ChangeMyFont();
+				UpdateWindow(m_fontSample);
 				UpdateWindow(hWnd);
 			}
 
 			break;
+
+//		case IDC_COMBO_FONTNAME:
+//			GetSelectUserFontList();
+//			ChangeMyFont();
+//			break;
+
+		case CBN_SELCHANGE:
+			GetSelectUserFontList();
+			ChangeMyFont();
+			break;
+
+		case IDC_RADIO_MSGOTHIC:
+		case IDC_RADIO_MSMINCHO:
+			GetDefaultFontButton();
+			ChangeMyFont();
+//			UpdateWindow(m_fontSample);
+//			UpdateWindow(hWnd);
+
+
+			break;
+
 
 //		case IDC_CHECK_XAUDIO2:
 		case IDC_RADIO_XAUDIO2_AUTO:
@@ -1803,12 +1959,22 @@ void DataForSave(void)
 
 	m_systemdata->messageSpeed = m_messageSpeed;
 
+	if (m_systemFlag2 != nullptr)
+	{
+		m_systemFlag2->scriptSEVolume = m_scriptSEVolume;
+		m_systemFlag2->continueVoice = m_voiceContinue;
+	}
+
 	m_systemdata->musicSwitch = m_musicSwitch;
 	m_systemdata->soundSwitch = m_soundSwitch;
 	m_systemdata->voiceSwitch = m_voiceSwitch;
 	m_systemdata->movieSwitch = m_movieSwitch;
 	m_systemdata->soundVoiceSwitch = m_soundVoiceSwitch;
 	m_systemdata->totalVolumeSwitch = m_totalVolumeSwitch;
+	if (m_systemFlag2 != nullptr)
+	{
+		m_systemFlag2->scriptSESwitch = m_scriptSESwitch;
+	}
 
 
 	m_systemdata->notUseDirectDraw = m_directDrawNotUse;
@@ -1889,6 +2055,10 @@ void DataByLoad(void)
 	m_soundVoiceVolume = m_systemdata->soundVoiceVolume;
 	m_totalVolume = m_systemdata->totalVolume;
 	m_messageSpeed = m_systemdata->messageSpeed;
+	if (m_systemFlag2 != nullptr)
+	{
+		m_scriptSEVolume = m_systemFlag2->scriptSEVolume;
+	}
 
 	m_musicSwitch = m_systemdata->musicSwitch;
 	m_soundSwitch = m_systemdata->soundSwitch;
@@ -1896,6 +2066,11 @@ void DataByLoad(void)
 	m_movieSwitch = m_systemdata->movieSwitch;
 	m_soundVoiceSwitch = m_systemdata->soundVoiceSwitch;
 	m_totalVolumeSwitch = m_systemdata->totalVolumeSwitch;
+	if (m_systemFlag2 != nullptr)
+	{
+		m_scriptSESwitch = m_systemFlag2->scriptSESwitch;
+		m_voiceContinue = m_systemFlag2->continueVoice;
+	}
 
 
 	m_directDrawNotUse = m_systemdata->notUseDirectDraw;
@@ -2161,6 +2336,8 @@ void SetVolumeSlider(void)
 
 	SendMessage(m_totalVolumeSlider,TBM_SETPOS,(WPARAM)TRUE,m_totalVolume);
 
+	vol = AdjustVolumeByLoad(m_scriptSEVolume);
+	SendMessage(m_scriptSEVolumeSlider, TBM_SETPOS, (WPARAM)TRUE, vol);
 }
 
 
@@ -2195,6 +2372,10 @@ void SetVolumeSwitch(void)
 	st = BST_UNCHECKED;
 	if (m_totalVolumeSwitch) st = BST_CHECKED;
 	SendMessage(m_totalCheck,BM_SETCHECK,st,0);
+
+	st = BST_UNCHECKED;
+	if (m_scriptSESwitch) st = BST_CHECKED;
+	SendMessage(m_scriptSECheck, BM_SETCHECK, st, 0);
 
 }
 
@@ -2259,6 +2440,7 @@ void SetExpCheckButton(void)
 }
 //get
 
+
 void SetExpRadioButton(void)
 {
 }
@@ -2318,6 +2500,7 @@ void GetSkipModeButton(void)
 }
 
 
+
 void GetDefaultFontButton(void)
 {
 	if (SendMessage(m_msGothicRadio,BM_GETCHECK,0,0) == BST_CHECKED)
@@ -2336,6 +2519,12 @@ void GetSelectUserFontList(void)
 	int sel = SendMessage(m_fontNameList,CB_GETCURSEL,(WPARAM)0,(LPARAM)0);
 	if ((sel<0) || (sel>=m_fontKosuu)) sel = 0;
 
+	m_selectedFontNumber = sel;
+
+
+	//int sel = SendMessage(m_fontNameList, CB_GETITEMDATA, (WPARAM)sel, (LPARAM)0);
+
+
 	char name[256];
 	name[0] = 0;
 	SendMessage(m_fontNameList,CB_GETLBTEXT,(WPARAM)sel,(LPARAM)name);
@@ -2345,6 +2534,19 @@ void GetSelectUserFontList(void)
 	memcpy(m_userFontName,name,ln);
 	m_userFontName[ln] = 0;
 	m_userFontName[ln+1] = 0;
+}
+
+
+void SetVoiceContinueCheck(void)
+{
+	if (m_voiceContinue == 0)
+	{
+		SendMessage(m_voiceContinueCheck, BM_SETCHECK, BST_UNCHECKED, 0);
+	}
+	else
+	{
+		SendMessage(m_voiceContinueCheck, BM_SETCHECK, BST_CHECKED, 0);
+	}
 }
 
 
@@ -2419,6 +2621,19 @@ void Get2d3dButton(void)
 }
 
 
+void GetVoiceContinueCheck(void)
+{
+	if (SendMessage(m_voiceContinueCheck, BM_GETCHECK, 0, 0) == BST_CHECKED)
+	{
+		m_voiceContinue = 1;
+	}
+	else
+	{
+		m_voiceContinue = 0;
+	}
+}
+
+
 void GetShaderButton(void)
 {
 	if (SendMessage(m_needautoShaderRadio,BM_GETCHECK,0,0) == BST_CHECKED)
@@ -2465,6 +2680,7 @@ void GetVolumeSlider(void)
 	m_movieVolume = AdjustVolumeForSave(SendMessage(m_movieVolumeSlider,TBM_GETPOS,0,0));
 	m_soundVoiceVolume = AdjustVolumeForSave(SendMessage(m_soundVoiceVolumeSlider,TBM_GETPOS,0,0));
 	m_totalVolume = SendMessage(m_totalVolumeSlider,TBM_GETPOS,0,0);
+	m_scriptSEVolume = AdjustVolumeForSave(SendMessage(m_scriptSEVolumeSlider, TBM_GETPOS, 0, 0));
 }
 
 void GetMessageSpeedSlider(void)
@@ -2481,6 +2697,7 @@ void GetVolumeSwitch(void)
 	m_movieSwitch = 0;
 	m_soundVoiceSwitch = 0;
 	m_totalVolumeSwitch = 0;
+	m_scriptSESwitch = 0;
 
 	if (SendMessage(m_musicCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_musicSwitch = 1;
 	if (SendMessage(m_soundCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_soundSwitch = 1;
@@ -2488,6 +2705,7 @@ void GetVolumeSwitch(void)
 	if (SendMessage(m_movieCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_movieSwitch = 1;
 	if (SendMessage(m_soundVoiceCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_soundVoiceSwitch = 1;
 	if (SendMessage(m_totalCheck,BM_GETCHECK,0,0) == BST_CHECKED) m_totalVolumeSwitch = 1;
+	if (SendMessage(m_scriptSECheck, BM_GETCHECK, 0, 0) == BST_CHECKED) m_scriptSESwitch = 1;
 }
 
 
@@ -2598,14 +2816,38 @@ int CALLBACK EnumFontFamExProc(
 
 	if (strlen(name)>=254) return FALSE;
 
+	if ((*name) == '@')
+	{
+		return TRUE;
+	}
+
+	int h = lpelfe->elfLogFont.lfHeight;
+	int w = lpelfe->elfLogFont.lfWidth;
+	char mes[256];
+	sprintf_s(mes, 256, "%s %d %d\n",name,w,h);
+	OutputDebugString(mes);
+
+
 //	memcpy(m_fontName + m_fontKosuu*256,name,ln);
 //	m_fontName[m_fontKosuu*256+ln] = 0;
 //	m_fontName[m_fontKosuu*256+ln+1] = 0;
 
 	SendMessage(m_fontNameList,CB_INSERTSTRING,(WPARAM)m_fontKosuu,(LPARAM)name);
 
+	m_fontSizeX[m_fontKosuu] = w;
+	m_fontSizeY[m_fontKosuu] = h;
+
+
+	if (_strcmpi(m_userFontName,name) == 0)
+	{
+		sprintf_s(mes, 256, "***\n*** %s\n***\n", name);
+		OutputDebugString(mes);
+		m_selectedFontNumber = m_fontKosuu;
+	}
+
+
 	m_fontKosuu++;
-	if (m_fontKosuu>=255) return FALSE;
+	if (m_fontKosuu>= (FONT_KOSUU_MAX-1)) return FALSE;
 	return TRUE;
 }
 
@@ -2796,3 +3038,103 @@ void RecalcuVolume(void)
 }
 
 
+
+void ChangeMyFont(void)
+{
+	LPSTR fontName = "‚l‚r ƒSƒVƒbƒN";
+	if (m_fontMode == 1)
+	{
+		fontName = "‚l‚r –¾’©";
+	}
+
+	if (m_userFontFlag != 0)
+	{
+		fontName = m_userFontName;
+	}
+
+	ChangeGameFont(fontName);
+}
+
+
+
+void ChangeGameFont(LPSTR fontName)
+{
+	int fontsize = m_fontSampleSize;;
+	int m_fontWeight = FW_BOLD;
+	int m_fontItalic = 0;
+	int m_charaSet = SHIFTJIS_CHARSET;
+	LPSTR fontname = "‚l‚rƒSƒVƒbƒN";
+
+//	int MapModePrevious;
+//	MapModePrevious = SetMapMode(hdc, MM_TEXT);
+
+	//fontsize = (fontsize * GetDeviceCaps(hdc,LOGPIXELSY)) / 72;
+
+	//31,41‚ä‚¤‚È‚ñ‚Æ‚©‚½‚¢ƒtƒHƒ“ƒg
+	int fontWidth = (m_fontSizeX[m_selectedFontNumber] * fontsize) / 32;
+	int fontHeight = (m_fontSizeY[m_selectedFontNumber] * fontsize) / 32;
+
+	if (m_userFontFlag == 0)
+	{
+		fontWidth = m_fontSampleSize / 2;
+		fontHeight = m_fontSampleSize;
+	}
+
+	char mes[256];
+	sprintf_s(mes, 256, "%s %d %d %d\n", fontName,m_selectedFontNumber, m_fontSizeX[m_selectedFontNumber], m_fontSizeY[m_selectedFontNumber]);
+	OutputDebugString(mes);
+
+	HFONT hFont = CreateFont(
+		fontHeight ,
+
+		fontWidth ,
+		0, 
+		0, 
+		m_fontWeight, 
+		m_fontItalic, 
+		FALSE, 
+		FALSE,
+		m_charaSet,
+		OUT_DEFAULT_PRECIS, 
+//		OUT_OUTLINE_PRECIS,
+
+		CLIP_DEFAULT_PRECIS,
+
+		DEFAULT_QUALITY,
+//		CLEARTYPE_QUALITY,
+
+		FIXED_PITCH | FF_DONTCARE,
+//		VARIABLE_PITCH,
+
+		fontName);
+	SendMessage(m_fontSample, WM_SETFONT, (WPARAM)hFont, (LPARAM)1);
+
+	/*
+	HDC hdc = GetDC(m_fontSample);
+
+	TEXTMETRIC met;
+
+	GetTextMetrics(hdc, &met);
+	int fontPointSize = met.tmHeight;
+	int leading = met.tmInternalLeading;
+
+	OUTLINETEXTMETRIC outmet;
+	GetOutlineTextMetrics(hdc, sizeof(outmet), &outmet);
+
+	char mes[256];
+	sprintf_s(mes, 256, "point = %d delta = %d pixel = %d\n", fontPointSize, leading, fontPointSize+ leading);
+	OutputDebugString(mes);
+
+	int out1 = outmet.otmTextMetrics.tmHeight;
+	int out2 = outmet.otmTextMetrics.tmInternalLeading;
+
+	sprintf_s(mes, 256, "out point = %d delta = %d pixel = %d\n", out1, out2, out1+out2);
+	OutputDebugString(mes);
+	*/
+
+//	SetMapMode(hdc, MapModePrevious);
+
+}
+
+
+/*_*/

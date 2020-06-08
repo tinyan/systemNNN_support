@@ -72,6 +72,8 @@ int m_radioButtonTable[]=
 
 BOOL m_wavSysFlag = FALSE;
 BOOL m_wavSeFlag = FALSE;
+BOOL m_oggSysFlag = FALSE;
+BOOL m_oggSeFlag = FALSE;
 BOOL m_voiceFlag = FALSE;
 BOOL m_bgmFlag = FALSE;
 
@@ -148,6 +150,7 @@ PACKTYPE=2      ";
 */
 
 
+
 //wave music
 char packHeader4[]= "\
                 \
@@ -176,7 +179,17 @@ char* m_headerBuffer = NULL;
 char* m_filenameBuffer = NULL;
 int* m_filenameTable = NULL;
 
-int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCmdLine,  int nCmdShow)
+ATOM                MyRegisterClass(HINSTANCE hInstance);
+BOOL                InitInstance(HINSTANCE, int);
+LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
+
+//int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCmdLine,  int nCmdShow)
 {
 	int i;
 	for (i=0;i<9;i++)
@@ -195,7 +208,7 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 
 	FILE* file = NULL;
 
-	fopen_s(&file,"nerune.cfg","rb");
+	fopen_s(&file,"nerune3.cfg","rb");
 	//FILE* file = fopen("nerune.cfg","rb");
 	if (file != NULL)
 	{
@@ -225,17 +238,30 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 //	m_packRoutine = new CPackRoutine();
 
 
-	if (CheckExistDir("wav"))
-	{
-		if (CheckExistDir("wav\\sys")) m_wavSysFlag = TRUE;
-		if (CheckExistDir("wav\\se")) m_wavSeFlag = TRUE;
-	}
 
+
+
+	if (m_radioButtonStatus[7])
+	{
+		if (CheckExistDir("wav"))
+		{
+			if (CheckExistDir("wav\\sys")) m_wavSysFlag = TRUE;
+			if (CheckExistDir("wav\\se")) m_wavSeFlag = TRUE;
+		}
+
+//		m_wavSysFlag = TRUE;
+//		m_wavSeFlag = TRUE;
+	}
 
 	if (m_radioButtonStatus[6])
 	{
-		m_wavSysFlag = TRUE;
-		m_wavSeFlag = TRUE;
+		if (CheckExistDir("ogg"))
+		{
+			if (CheckExistDir("ogg\\sys") && CheckExistDir("wav\\sys")) m_oggSysFlag = TRUE;
+			if (CheckExistDir("ogg\\se") && CheckExistDir("wav\\se")) m_oggSeFlag = TRUE;
+		}
+//		m_oggSysFlag = TRUE;
+//		m_oggSeFlag = TRUE;
 	}
 
 
@@ -278,40 +304,83 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 		PackVoice();
 	}
 
-	if ((m_checkButtonStatus[2]) && (m_wavSysFlag))
+	if (m_radioButtonStatus[7] != 0)
 	{
-		if (CheckExistDir("vaw") == FALSE)
+		if ((m_checkButtonStatus[2]) && (m_wavSysFlag))
 		{
-			CreateDirectory("vaw",NULL);
+			if (CheckExistDir("vaw") == FALSE)
+			{
+				CreateDirectory("vaw", NULL);
+			}
+
+			if (CheckExistDir("vaw\\sys") == FALSE)
+			{
+				CreateDirectory("vaw\\sys", NULL);
+			}
+
+			SetWindowText(m_staticText, "効果音の変換中");
+			UpdateWindow(m_staticText);
+
+			PackSystemSound();
 		}
 
-		if (CheckExistDir("vaw\\sys") == FALSE)
+		if ((m_checkButtonStatus[3]) && (m_wavSeFlag))
 		{
-			CreateDirectory("vaw\\sys",NULL);
+			if (CheckExistDir("vaw") == FALSE)
+			{
+				CreateDirectory("vaw", NULL);
+			}
+
+			if (CheckExistDir("vaw\\se") == FALSE)
+			{
+				CreateDirectory("vaw\\se", NULL);
+			}
+
+			SetWindowText(m_staticText, "スクリプト効果音の変換中");
+			UpdateWindow(m_staticText);
+
+			PackScriptSound();
 		}
-
-		SetWindowText(m_staticText,"効果音の変換中");
-		UpdateWindow(m_staticText);
-
-		PackSystemSound();
 	}
 
-	if ((m_checkButtonStatus[3]) && (m_wavSeFlag))
+	if (m_radioButtonStatus[6] != 0)
 	{
-		if (CheckExistDir("vaw") == FALSE)
+		if ((m_checkButtonStatus[2]) && (m_oggSysFlag))
 		{
-			CreateDirectory("vaw",NULL);
+			if (CheckExistDir("vaw") == FALSE)
+			{
+				CreateDirectory("vaw", NULL);
+			}
+
+			if (CheckExistDir("vaw\\sys") == FALSE)
+			{
+				CreateDirectory("vaw\\sys", NULL);
+			}
+
+			SetWindowText(m_staticText, "効果音の変換中");
+			UpdateWindow(m_staticText);
+
+			PackSystemSound();
 		}
 
-		if (CheckExistDir("vaw\\se") == FALSE)
+		if ((m_checkButtonStatus[3]) && (m_oggSeFlag))
 		{
-			CreateDirectory("vaw\\se",NULL);
+			if (CheckExistDir("vaw") == FALSE)
+			{
+				CreateDirectory("vaw", NULL);
+			}
+
+			if (CheckExistDir("vaw\\se") == FALSE)
+			{
+				CreateDirectory("vaw\\se", NULL);
+			}
+
+			SetWindowText(m_staticText, "スクリプト効果音の変換中");
+			UpdateWindow(m_staticText);
+
+			PackScriptSound();
 		}
 
-		SetWindowText(m_staticText,"スクリプト効果音の変換中");
-		UpdateWindow(m_staticText);
-
-		PackScriptSound();
 	}
 
 	if ((m_checkButtonStatus[4]))
@@ -347,7 +416,7 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 	ENDDELETECLASS(m_checkDate);
 
 //	file = fopen("nerune.cfg","wb");
-	fopen_s(&file,"nerune.cfg","wb");
+	fopen_s(&file,"nerune3.cfg","wb");
 	if (file != NULL)
 	{
 		for (i=0;i<9;i++)
@@ -636,24 +705,30 @@ void PackMusic(void)
 				FILE* file = NULL;
 				FILE* file2 = NULL;
 				fopen_s(&file,src,"rb");
-				fopen_s(&file2,dst,"wb");
-
-
-//				FILE* file = fopen(src,"rb");
-//				FILE* file2 = fopen(dst,"wb");
-
-				fwrite(packHeader6,sizeof(char),64,file2);
-
-				while (TRUE)
+				if (file != NULL)
 				{
-					int ln = fread(m_buffer,sizeof(char),1024*1024,file);
-					if (ln<=0) break;
-					fwrite(m_buffer,sizeof(char),ln,file2);
-					if (ln<1024*1024) break;
-				}
+					fopen_s(&file2, dst, "wb");
 
-				fclose(file2);
-				fclose(file);
+
+					if (file2 != NULL)
+					{
+						//				FILE* file = fopen(src,"rb");
+						//				FILE* file2 = fopen(dst,"wb");
+
+						fwrite(packHeader6, sizeof(char), 64, file2);
+
+						while (TRUE)
+						{
+							int ln = fread(m_buffer, sizeof(char), 1024 * 1024, file);
+							if (ln <= 0) break;
+							fwrite(m_buffer, sizeof(char), ln, file2);
+							if (ln < 1024 * 1024) break;
+						}
+
+						fclose(file2);
+					}
+					fclose(file);
+				}
 			}
 		}
 		m_myFindFile->SearchEnd();
@@ -797,6 +872,7 @@ void PackVoice(void)
 
 
 
+
 void KatameRoutine(void)
 {
 	m_filenameBuffer = new char[8*65536];
@@ -886,62 +962,71 @@ void KatameRoutine(void)
 		FILE* tableFile = NULL;
 		fopen_s(&tableFile,vtbFilename,"wb");
 
-//		FILE* tableFile = fopen(vtbFilename,"wb");
-
-		char vpkFilename[256];
-		wsprintf(vpkFilename,"cdvaw\\%s.vpk",dirname);
-
-		FILE* packFile = NULL;
-		fopen_s(&packFile,vpkFilename,"wb");
-
-		//FILE* packFile = fopen(vpkFilename,"wb");
-
-		//pack table
-		//pack data
-
-		int offsetData = 0;
-
-		char mes[256];
-		wsprintf(mes,"音声 %s(%s)を固めています",dirname,m_charaList->GetName(n*2+1));
-		SetWindowText(m_staticText,mes);
-		UpdateWindow(m_staticText);
-
-		for (int i=0;i<kosuu;i++)
+		if (tableFile != NULL)
 		{
-			if ((i % 10) == 0)
+			//		FILE* tableFile = fopen(vtbFilename,"wb");
+
+			char vpkFilename[256];
+			wsprintf(vpkFilename, "cdvaw\\%s.vpk", dirname);
+
+			FILE* packFile = NULL;
+			fopen_s(&packFile, vpkFilename, "wb");
+
+			if (packFile != NULL)
 			{
-				SendMessage(m_progressBar2,PBM_SETPOS,i % 100,0);
+				//FILE* packFile = fopen(vpkFilename,"wb");
+
+				//pack table
+				//pack data
+
+				int offsetData = 0;
+
+				char mes[256];
+				wsprintf(mes, "音声 %s(%s)を固めています", dirname, m_charaList->GetName(n * 2 + 1));
+				SetWindowText(m_staticText, mes);
+				UpdateWindow(m_staticText);
+
+				for (int i = 0; i < kosuu; i++)
+				{
+					if ((i % 10) == 0)
+					{
+						SendMessage(m_progressBar2, PBM_SETPOS, i % 100, 0);
+					}
+
+					int nm = m_filenameTable[i];
+					char filenameonly[10];
+					memcpy(filenameonly, m_filenameBuffer + nm * 8, 8);
+					filenameonly[8] = 0;
+					filenameonly[9] = 0;
+
+					char filename[256];
+					wsprintf(filename, "cdvaw\\%s\\%s.vaw", dirname, filenameonly);
+
+					FILE* file = NULL;
+					fopen_s(&file, filename, "rb");
+					int sz = 0;
+					if (file != NULL)
+					{
+						//FILE* file = fopen(filename,"rb");
+						sz = fread(m_buffer, sizeof(char), 1024 * 1024 * 12, file);//max 12M
+						fclose(file);
+					}
+
+					fwrite(m_buffer, sizeof(char), sz, packFile);
+					fwrite(m_filenameBuffer + nm * 8, sizeof(char), 8, tableFile);
+					fwrite(&offsetData, sizeof(int), 1, tableFile);
+					offsetData += sz;
+				}
+
+				char nullData[8];
+				ZeroMemory(nullData, 8);
+				fwrite(nullData, sizeof(char), 8, tableFile);
+				fwrite(&offsetData, sizeof(int), 1, tableFile);
+
+				fclose(packFile);
 			}
-
-			int nm = m_filenameTable[i];
-			char filenameonly[10];
-			memcpy(filenameonly,m_filenameBuffer+nm*8,8);
-			filenameonly[8] = 0;
-			filenameonly[9] = 0;
-
-			char filename[256];
-			wsprintf(filename,"cdvaw\\%s\\%s.vaw",dirname,filenameonly);
-
-			FILE* file = NULL;
-			fopen_s(&file,filename,"rb");
-
-			//FILE* file = fopen(filename,"rb");
-			int sz = fread(m_buffer,sizeof(char),1024*1024*12,file);//max 12M
-			fclose(file);
-
-			fwrite(m_buffer,sizeof(char),sz,packFile);
-			fwrite(m_filenameBuffer+nm*8,sizeof(char),8,tableFile);
-			fwrite(&offsetData,sizeof(int),1,tableFile);
-			offsetData += sz;
+			fclose(tableFile);
 		}
-
-		char nullData[8];
-		ZeroMemory(nullData,8);
-		fwrite(nullData,sizeof(char),8,tableFile);
-		fwrite(&offsetData,sizeof(int),1,tableFile);
-
-		fclose(packFile);
-		fclose(tableFile);
 	}
 
 

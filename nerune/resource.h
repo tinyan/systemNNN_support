@@ -1,10 +1,11 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by script1.rc
+// Microsoft Visual C++ で生成されたインクルード ファイル。
+// script1.rc で使用
 //
 #define IDD_DIALOG_SETUP                102
 #define IDD_DIALOG_PROCESS              103
 #define IDI_ICON1                       104
+#define IDI_ICON2                       110
 #define IDC_CHECK_TA                    1000
 #define IDC_CHECK_BGM                   1000
 #define IDC_CHECK_BG                    1001
@@ -34,7 +35,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        105
+#define _APS_NEXT_RESOURCE_VALUE        111
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1018
 #define _APS_NEXT_SYMED_VALUE           101

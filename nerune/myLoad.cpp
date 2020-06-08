@@ -105,7 +105,11 @@ int CMyLoad::LoadOgg(LPSTR waveFilename,LPSTR oggFilename,void* headerBuffer, vo
 	fopen_s(&file0,waveFilename,"rb");
 
 //	FILE* file0 = fopen(waveFilename,"rb");
-
+	if (file0 == NULL)
+	{
+		fclose(file);
+		return -1;
+	}
 
 	fread(headerBuffer,sizeof(char),12,file0);
 	char* header = (char*)headerBuffer;
