@@ -86,6 +86,10 @@ int m_notFound = 0;
 
 bool m_win10 = false;
 
+int m_hideDirect2D = 0;
+int m_hideXAudio2 = 0;
+
+
 //char* m_fontName = NULL;
 
 int CALLBACK EnumFontFamExProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX *lpntme, int FontType,  LPARAM lParam);
@@ -365,6 +369,7 @@ HWND m_expRadioButton[16][8];
 int m_expRadioButtonMax[16] = {2,2,2,2,2,2,2,2,4,4,4,4,8,8,16,0};
 int m_expRadioButtonUse[16] = {2,2,2,2,2,2,2,2,4,4,4,4,8,8,16,0};
 
+bool m_notUseScreenStretchButton = false;
 
 
 int m_expCheckID[16]=
@@ -496,7 +501,14 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 		GetInitGameParam3(&m_volumeMinXAudio2, "volumeMinWin10");
 		GetInitGameParam3(&m_volumeMaxXAudio2, "volumeMaxWin10");
 	}
-	
+
+	int bstr = false;
+	GetInitGameParam3(&bstr, "notUseScreenStretchButton");
+	if (bstr != 0)
+	{
+		m_notUseScreenStretchButton = true;
+	}
+
 	if (IsWindows10OrGreater())
 	{
 		m_win10 = true;
@@ -543,6 +555,8 @@ int WINAPI WinMain(  HINSTANCE hInstance,   HINSTANCE hPrevInstance,  LPSTR lpCm
 
 	m_folderType = folderType;
 
+	GetInitGameParam(&m_hideDirect2D, "hideDirect2D");
+	GetInitGameParam(&m_hideXAudio2, "hideXAudio2");
 
 	GetInitGameParam(&m_useExpCheck,"useExpCheckConfig");
 	GetInitGameParam(&m_useExpRadio,"useExpRadioConfig");
@@ -692,9 +706,14 @@ BOOL LoadSystemFile(void)
 
 	if (file == NULL)
 	{
-		m_notFound = 1;
-		wsprintf(filename,"sav\\%s.org",m_systemFileName);
+		wsprintf(filename, "sav\\%s.org", m_systemFileName);
+
 		fopen_s(&file,filename,"rb");
+
+		if (file == NULL)
+		{
+			m_notFound = 1;
+		}
 	}
 
 	if (file == NULL) return FALSE;
@@ -729,6 +748,8 @@ BOOL LoadSystemFile(void)
 	DataByLoad();
 	return TRUE;
 }
+
+
 
 
 BOOL SaveSystemFile(void)
@@ -1294,6 +1315,10 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 
 		m_voiceContinueCheck = GetDlgItem(hWnd, IDC_CHECK_VOICE_CONTINUE);
 
+		if (m_hideXAudio2 != 0)EnableWindow(m_useXAudio2RadioAuto, FALSE);
+		if (m_hideDirect2D != 0) EnableWindow(m_useDirect2DRadioAuto, FALSE);
+
+
 
 #if defined __SYSTEMNNN_VER2__
 
@@ -1303,7 +1328,7 @@ BOOL CALLBACK DlgProc2( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		EnableWindow(m_useXAudio2RadioAuto, FALSE);
 //		EnableWindow(m_useXAudio2RadioOff, FALSE);
 
-		EnableWindow(m_useDirect2DRadioAuto, FALSE);
+//@@		EnableWindow(m_useDirect2DRadioAuto, FALSE);
 //		EnableWindow(m_useDirect2DRadioOff, FALSE);
 
 #endif
@@ -2462,6 +2487,8 @@ void SetScreenSizeButton(void)
 
 void SetScreenStretchButton(void)
 {
+	EnableWindow(m_screenStretchButton,!m_notUseScreenStretchButton);
+
 	if (m_screenStrecthFlag == 0)
 	{
 		SendMessage(m_screenStretchButton, BM_SETCHECK, BST_UNCHECKED, 0);

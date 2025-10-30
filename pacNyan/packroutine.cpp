@@ -83,9 +83,9 @@ CPackRoutine::CPackRoutine()
 	m_errorSkipFlag = FALSE;
 
 	m_checkFileDate = new CCheckFileDate();
-	m_loadBuffer = new char[1024*16384];
-	m_loadBuffer2 = new char[1024*8192];
-	m_saveBuffer = new char[1024*8192];
+	m_loadBuffer = new char[1024*20480];
+	m_loadBuffer2 = new char[1024*20480];
+	m_saveBuffer = new char[1024*20480];
 
 	m_pngLoader = new CPngLoader(8);
 }
@@ -558,7 +558,7 @@ BOOL CPackRoutine::ArcDWQ(int bit64,LPSTR dstDir,int version,LPSTR dstDir2)
 			fopen_s(&file3,filename3,"rb");
 			if (file3 != NULL)
 			{
-				int fileSize = fread(m_loadBuffer,sizeof(char),8192*1024,file3);
+				int fileSize = fread(m_loadBuffer,sizeof(char),20480*1024,file3);
 				fclose(file3);
 				fwrite(m_loadBuffer,sizeof(char),fileSize,file);
 			}
@@ -1161,7 +1161,7 @@ BOOL CPackRoutine::PackRoutine5(LPSTR srcDir,LPSTR filename,LPSTR extName,LPSTR 
 	FILE* file = NULL;
 	fopen_s(&file,srcFileName,"rb");
 
-	int fileSize = fread(m_loadBuffer,sizeof(char),1024*8192,file);
+	int fileSize = fread(m_loadBuffer,sizeof(char),1024*20480,file);
 	fclose(file);
 
 	//âêÕ
@@ -1215,7 +1215,7 @@ BOOL CPackRoutine::PackRoutine7(LPSTR srcDir,LPSTR filename,LPSTR extName,LPSTR 
 	FILE* file = NULL;
 	fopen_s(&file,srcFileName,"rb");
 
-	int fileSize = fread(m_loadBuffer,sizeof(char),1024*8192,file);
+	int fileSize = fread(m_loadBuffer,sizeof(char),1024*20480,file);
 	fclose(file);
 
 	//âêÕ

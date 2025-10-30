@@ -13,14 +13,15 @@
 
 
 #if !defined _DEBUG
-//#pragma comment(lib,"..\\nyanlib\\lib\\nyanLib2005.lib")
-//#pragma comment(lib,"..\\nyanlib\\lib\\nnnUtilLib2005.lib")
+#pragma comment(lib,"..\\..\\systemNNNLib\\nyanLib2017.lib")
+#pragma comment(lib,"..\\..\\systemNNNLib\\nnnUtilLib2017_win7.lib")
 #else
 //#pragma comment(lib,"..\\nyanlib\\lib\\nyanLib2005D.lib")
 //#pragma comment(lib,"..\\nyanlib\\lib\\nnnUtilLib2005D.lib")
 #endif
 
 //#define __TAIKEN_VERSION__
+
 
 
 

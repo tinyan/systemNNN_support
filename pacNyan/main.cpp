@@ -18,12 +18,25 @@
 
 #pragma comment(lib,"Comctl32.lib")
 
+/*
 #if !defined _DEBUG
 #pragma comment(lib,"d:\\libpng\\lib\\zlib.lib")
 #pragma comment(lib,"d:\\libpng\\lib\\libpng.lib")
 #else
 #pragma comment(lib,"d:\\libpng\\lib\\zlibD.lib")
 #pragma comment(lib,"d:\\libpng\\lib\\libpngD.lib")
+#endif
+*/
+
+//#define __TINYANINCLUDEDIR__ "d:\\tinyan\\systemNNNLib\\"
+#define __LIBPNGDIR__ "d:\\libpng\\lib\\"
+
+#if !defined _DEBUG
+#pragma comment(lib,__LIBPNGDIR__ "zlib.lib")
+#pragma comment(lib,__LIBPNGDIR__ "libpng16.lib")
+#else
+#pragma comment(lib,__LIBPNGDIR__ "zlibd.lib")
+#pragma comment(lib,__LIBPNGDIR__ "libpng16d.lib")
 #endif
 
 
